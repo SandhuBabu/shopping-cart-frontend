@@ -1,13 +1,34 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { login } from '../../services/authService';
+import { useDispatch } from 'react-redux'
+import { setUser } from '../../features/userSlice';
+
 
 const LoginModal = () => {
 
     const naviagate = useNavigate();
     const passwordRef = useRef();
+    const dispatch = useDispatch();
 
-    const handleLogin = (e) => {
+    const [authResponse, setAuthResponse] = useState({
+        error: false,
+        message: ""
+    });
+
+    const handleLogin = async (e) => {
         e.preventDefault();
+        const data = {
+            email: e.target.email.value,
+            password: e.target.password.value,
+        }
+        try {
+            const res = await login(data);
+            dispatch(setUser(res.userData));
+            navigate("/", { replace: true })
+        } catch (error) {
+            setAuthResponse({ ...authResponse, error: error.error, message: error.message })
+        }
     }
 
     const handleNavigateSignUp = () => {
@@ -24,7 +45,7 @@ const LoginModal = () => {
 
 
     return (
-        <dialog id="my_modal_3" className="modal">
+        <dialog id="login_modal" className="modal">
             <div className="modal-box">
                 <form method="dialog">
                     <button className="text-2xl  absolute right-4 top-3">✕</button>
@@ -65,8 +86,13 @@ const LoginModal = () => {
                     </div>
 
                     <p className='flex gap-1 text-sm my-3 text-red-400'>
-                        <span className="material-symbols-outlined text-[20px]">error</span>
-                        <span>Invalid username or password</span>
+                        {
+                            authResponse.error &&
+                            <>
+                                <span className="material-symbols-outlined text-[20px]">error</span>
+                                <span>{authResponse.message}</span>
+                            </>
+                        }
                     </p>
 
                     <div className='flex justify-center mt-5'>

@@ -1,19 +1,45 @@
 import React, { useEffect, useRef } from 'react'
+import {useNavigate} from 'react-router-dom'
+import { signup } from '../../services/authService';
+import { useState } from 'react';
+import {useDispatch} from 'react-redux'
+import { setUser } from '../../features/userSlice';
+
 
 const Signup = () => {
 
     const passwordRef = useRef();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const [authResponse, setAuthResponse] = useState({
+        error: false,
+        message: ""
+    });
 
     useEffect(() => {
         const prevTitle = document.querySelector("title").innerHTML;
         document.querySelector("title").innerHTML = "Sign Up"
-       
+
         return () => {
             document.querySelector("title").innerHTML = prevTitle
         }
     }, [])
 
-    const handleSignup = () => {
+    const handleSignup = async (e) => {
+        e.preventDefault();
+        const data = {
+            fullName: e.target.fullName.value,
+            email: e.target.email.value,
+            password: e.target.password.value,
+        }
+        try {
+            const res = await signup(data);
+            dispatch(setUser(res.userData));
+            navigate("/", {replace: true})
+        } catch (error) {
+            setAuthResponse({ ...authResponse, error: error.error, message: error.message })
+        }
 
     }
 
@@ -37,6 +63,7 @@ const Signup = () => {
                     <input
                         type="text"
                         name='fullName'
+                        id='fullName'
                         placeholder="Enter full name"
                         className="input input-primary w-full capitalize"
                         required
@@ -76,8 +103,13 @@ const Signup = () => {
                 </div>
 
                 <p className='flex gap-1 text-sm my-3 text-red-400'>
-                    <span className="material-symbols-outlined text-[20px]">error</span>
-                    <span>Email already registered</span>
+                    {
+                       authResponse.error &&
+                       <>
+                            <span className="material-symbols-outlined text-[20px]">error</span>
+                            <span>{authResponse.message}</span>
+                        </>
+                    }
                 </p>
 
                 <div className='flex justify-center mt-7'>

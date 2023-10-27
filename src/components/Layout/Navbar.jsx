@@ -10,16 +10,13 @@ const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  console.log(user);
-
   const handleLoginModal = () => {
-    document.getElementById('my_modal_3').showModal()
+    document.getElementById('login_modal').showModal()
   }
 
   const handleLogout = () => {
     dispatch(logout())
     navigate("/", { replace: true })
-    // window.location.reload();
   }
 
 
