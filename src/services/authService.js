@@ -43,3 +43,10 @@ export const refresh = async (token) => {
         throw error
     }
 }
+
+export const logout = async () => {
+    const token = localStorage.getItem("refreshToken")
+    const form = new FormData();
+    form.set("token", token)
+    return axios.post(`${AUTH_BASE_URL}/logout`, form)
+}

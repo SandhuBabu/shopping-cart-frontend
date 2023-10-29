@@ -9,10 +9,11 @@
   box-sizing: border-box;
   text-decoration: none;
   list-style: none;
+  outline: none;
+  outline-offset: none;
 }
 
-
-.input:focus {
+.input:focus{
   outline-offset: 0;
 }
 

@@ -10,6 +10,11 @@ function App() {
 
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    console.log("APP_MOUNTED");
+    return () => console.log("APP_MOUNTED");
+  }, [])
+
 
   useEffect(() => {
     if (localStorage.getItem("accessToken")) {
@@ -32,7 +37,6 @@ function App() {
 
   const handleRefresh = async () => {
     const refreshToken = localStorage.getItem("refreshToken")
-    console.log(refreshToken);
     if(!refreshToken || refreshToken === undefined) {
       showLoginModal()
       return
