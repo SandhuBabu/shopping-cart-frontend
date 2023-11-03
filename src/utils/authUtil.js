@@ -1,5 +1,5 @@
 export const showLoginModal = () => {
-    document.getElementById("login_modal").showModal();
+    document.getElementById("login_modal").showModal()
 }
 
 export const setLocalTokens = (accessToken, refreshToken) => {

@@ -1,34 +1,33 @@
 import React, { Suspense } from 'react'
 import { Route, Routes } from 'react-router-dom'
-import MainLayout from '../components/Layout/MainLayout'
-import { HomePage, NotFound404, ProductPage } from '../pages'
-import { Signup } from '../components'
+import AdminLayout from '../components/Layout/AdminLayout'
+import { AddProductPage, AdminHomePage, NotFound404, ProductPage } from '../pages'
 
 
-const UserRouter = () => {
+const AdminRouter = () => {
     return (
         <Routes>
-            <Route path='/' element={<MainLayout />}>
+            <Route path='/' element={<AdminLayout />}>
                 <Route
                     index
                     element={
-                        <Suspense fallback={<>User Home Loading</>}>
-                            <HomePage />
+                        <Suspense fallback={<>Loading Admin Page</>}>
+                            <AdminHomePage />
                         </Suspense>
                     }
                 />
                 <Route
-                    path='cart'
-                    element={<p>Cart</p>}
-                />
-                <Route
-                    path='signup'
-                    element={<Signup />}
+                    path='/addProduct'
+                    element={
+                        <Suspense fallback={<>Loading Admin Product Add Page</>}>
+                            <AddProductPage />
+                        </Suspense>
+                    }
                 />
                 <Route
                     path='/product/:id'
                     element={
-                        <Suspense fallback={<>Product page loading</>}>
+                        <Suspense fallback={<>Loading Product Page</>}>
                             <ProductPage />
                         </Suspense>
                     }
@@ -44,4 +43,4 @@ const UserRouter = () => {
     )
 }
 
-export default UserRouter
+export default AdminRouter

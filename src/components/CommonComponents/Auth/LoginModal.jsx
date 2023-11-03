@@ -1,8 +1,8 @@
 import React, { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { login } from '../../services/authService';
+import { login } from '../../../services/authService';
 import { useDispatch } from 'react-redux'
-import { setUser } from '../../features/userSlice';
+import { setUser } from '../../../features/userSlice';
 
 
 const LoginModal = () => {
@@ -26,6 +26,7 @@ const LoginModal = () => {
             const res = await login(data);
             dispatch(setUser(res.userData));
             navigate("/", { replace: true })
+            document.getElementById("login_modal").closeModal()
         } catch (error) {
             setAuthResponse({ ...authResponse, error: error.error, message: error.message })
         }

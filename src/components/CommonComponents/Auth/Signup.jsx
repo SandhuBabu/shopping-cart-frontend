@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from 'react'
 import {useNavigate} from 'react-router-dom'
-import { signup } from '../../services/authService';
+import { signup } from '../../../services/authService';
 import { useState } from 'react';
 import {useDispatch} from 'react-redux'
-import { setUser } from '../../features/userSlice';
+import { setUser } from '../../../features/userSlice';
 
 
 const Signup = () => {

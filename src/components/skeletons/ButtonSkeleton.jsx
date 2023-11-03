@@ -1,6 +1,6 @@
 import React from 'react'
 
-const ButtonSkeleton = () => {
+export const ButtonSkeleton = () => {
   return (
     <div className="animate-pulse flex">
       <div className="space-y-3 w-[7em]">
@@ -9,5 +9,3 @@ const ButtonSkeleton = () => {
     </div>
   )
 }
-
-export default ButtonSkeleton

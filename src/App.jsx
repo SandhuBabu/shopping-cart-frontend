@@ -1,14 +1,17 @@
 import UserRouter from './routes/UserRouter'
-import { useDispatch } from 'react-redux'
+import AdminRouter from './routes/AdminRouter'
+import { useDispatch, useSelector } from 'react-redux'
 import { setUser } from './features/userSlice'
 import { refresh } from './services/authService'
-import { useEffect } from 'react'
+import { Suspense, useEffect } from 'react'
 import { getUser } from './services/userService'
-import { showLoginModal } from './utils/authUtil'
+import { Routes } from 'react-router-dom'
 
 function App() {
 
   const dispatch = useDispatch();
+  const user = useSelector(store => store.user)
+  console.log(user);
 
   useEffect(() => {
     console.log("APP_MOUNTED");
@@ -19,8 +22,6 @@ function App() {
   useEffect(() => {
     if (localStorage.getItem("accessToken")) {
       handleGetUser();
-    } else {
-      showLoginModal()
     }
   }, [])
 
@@ -37,23 +38,29 @@ function App() {
 
   const handleRefresh = async () => {
     const refreshToken = localStorage.getItem("refreshToken")
-    if(!refreshToken || refreshToken === undefined) {
-      showLoginModal()
+    if (!refreshToken || refreshToken === undefined) {
+      document.getElementById("login_modal").showModal();
       return
     }
-    
+
     try {
       const user = await refresh(refreshToken);
       dispatch(setUser(user))
     } catch (err) {
-      showLoginModal();
+      document.getElementById("login_modal").showModal();
     }
   }
 
 
-  return <>
-    <UserRouter />
-  </>
+  if (user?.role === "ADMIN")
+    return <Suspense fallback={<>ADMIN_ROUTES</>}>
+      <AdminRouter />
+    </Suspense>
 
+  return <>
+    <Suspense fallback={<>USER_ROUTES</>}>
+      <UserRouter />
+    </Suspense>
+  </>
 }
 export default App

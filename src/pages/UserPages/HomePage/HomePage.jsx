@@ -1,19 +1,24 @@
 import React, { Suspense } from 'react'
-import { 
-  Carousal, 
-  Header, 
-  ItemCard, 
-  NewItems 
-} from '../../components'
+
+import {
+UserHeader,
+ItemCard,
+Carousal,
+NewItems
+} from '../../../components'
+
+   
 import { Link } from 'react-router-dom'
-import WomesSale from '../../assets/images/womens_fashion_sale.png'
+import WomesSale from '../../../assets/images/womens_fashion_sale.png'
 
 const HomePage = () => {
+
+  // return <>Home</>
 
   return (
     <>
       <Suspense fallback={<>Loading...Home...</>}>
-      <Header />
+      <UserHeader />
       <Carousal />
 
       <h1 className='text-2xl mt-7 ml-4'>New Arrivals</h1>

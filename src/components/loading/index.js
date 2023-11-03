@@ -1,1 +1,1 @@
-export {default as ButtonSkeleton} from './skeletons/ButtonSkeleton'
+export {default as ButtonSkeleton} from '../CommonComponents/skeletons/ButtonSkeleton'
