@@ -22,7 +22,7 @@ const Navbar = () => {
             user.role === "ADMIN" &&
             <div className='px-4'>
               <label htmlFor="my-drawer" className="btn btn-ghost btn-circle">
-                <span style={{ fontSize: '35px' }} className="material-symbols-outlined">
+                <span style={{ fontSize: '30px' }} className="material-symbols-outlined">
                   menu
                 </span>
               </label>

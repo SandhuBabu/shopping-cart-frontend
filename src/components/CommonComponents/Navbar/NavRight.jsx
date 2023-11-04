@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '../Buttons/Button';
 import { logout } from '../../../services/authService';
 import { handleUserLogout } from '../../../features/userSlice';
-import { ButtonSkeleton } from '../../skeletons/ButtonSkeleton'; 
+import { ButtonSkeleton } from '../../skeletons/ButtonSkeleton';
 import ThemeToggle from './ThemeToggle';
 
 
@@ -35,8 +35,8 @@ const NavRight = () => {
         })
     }
 
-    // if (!user.id && !localStorage.getItem("refreshToken")) {
-    if (!user.id) {
+    if (!user.id && !localStorage.getItem("refreshToken")) {
+        // if (!user.id) {
         return (
             <Button
                 classNames="btn btn-primary"
@@ -47,9 +47,9 @@ const NavRight = () => {
         )
     }
 
-    // if (!user.id) {
-    //     return <ButtonSkeleton />
-    // }
+    if (!user.id) {
+        return <ButtonSkeleton />
+    }
 
     return (
         user.id && load &&

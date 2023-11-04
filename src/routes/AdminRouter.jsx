@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import AdminLayout from '../components/Layout/AdminLayout'
-import { AddProductPage, AdminHomePage, NotFound404, ProductPage } from '../pages'
+import { AddProductPage, AdminHomePage, EditProductPage, NotFound404, ProductPage } from '../pages'
 
 
 const AdminRouter = () => {
@@ -21,6 +21,14 @@ const AdminRouter = () => {
                     element={
                         <Suspense fallback={<>Loading Admin Product Add Page</>}>
                             <AddProductPage />
+                        </Suspense>
+                    }
+                />
+                <Route
+                    path='/editProduct/:id'
+                    element={
+                        <Suspense fallback={<>Loading Admin Product Edit Page</>}>
+                            <EditProductPage />
                         </Suspense>
                     }
                 />

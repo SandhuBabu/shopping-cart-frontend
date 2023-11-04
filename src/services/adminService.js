@@ -16,3 +16,20 @@ export const addProductEndpoint = (product) => {
         throw message
     })
 }
+
+export const editProductEndpoint = (product, id) => {
+    return adminApi.post(`/editProduct/${id}`, product, {
+        headers: {
+            'Content-Type': 'multipart/mixed',
+        }
+    }).then(res => {
+        console.log(res?.data);
+        return res?.data
+    }).catch(err => {
+        console.log(err);
+        if (err?.status === 403)
+            throw "no_user"
+        const message = err?.response?.data?.message || "Failed to create new product"
+        throw message
+    })
+}
