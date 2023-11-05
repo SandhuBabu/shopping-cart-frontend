@@ -41,6 +41,10 @@ const EditProduct = () => {
     const loadProduct = async () => {
         const { error, ...data } = await getProductById(id)
         if (error) {
+            if (error?.status === 403) {
+                refresh();
+                window.location.reload();
+            }
             setError(true)
             setLoad(true)
             return
@@ -59,12 +63,6 @@ const EditProduct = () => {
         Object.entries(product).forEach(([key, value]) => {
             if (key !== "imageUrl")
                 formData.append(key, value)
-        })
-
-
-
-        formData.forEach((val, key) => {
-            console.log(key, val);
         })
 
         try {
@@ -101,7 +99,7 @@ const EditProduct = () => {
         load &&
         <section className='w-full px-4 flex justify-center pb-16'>
             <form onSubmit={handleSubmit} className='w-full lg:w-[40em]'>
-                <h1 className='text-center text-3xl my-3'>Edit Product - {product.title}</h1>
+                <h1 className='text-center text-3xl my-3'>Edit Product - {product.id}</h1>
 
                 <Input type="text" value={product.title} onChange={handleChange} title="title" name="title" />
 
@@ -130,13 +128,15 @@ const EditProduct = () => {
                     <p className='flex gap-1 text-sm my-3 text-red-400'>
 
                         <span className="material-symbols-outlined text-[20px]">error</span>
-                        <span>{error}, </span>
+                        <span>{errorMessage}</span>
                     </p>
                 }
 
                 <div className='flex justify-center mt-12'>
-                    <button className="btn btn-primary w-full" type='submit'>Create new product</button>
+                    <button className="btn btn-primary w-full" type='submit'>Update product</button>
                 </div>
+
+
             </form>
         </section>
     )

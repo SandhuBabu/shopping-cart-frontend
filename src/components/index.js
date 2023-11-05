@@ -9,9 +9,11 @@ export {
 
 // admin components
 const LazyAdminHeader = lazy(() => import('./AdminComponents/Header/Header'));
+const LazyDataTable = lazy(() => import('./AdminComponents/DataTable/DataTable'));
 
 export {
     LazyAdminHeader as AdminHeader,
+    LazyDataTable as DataTable,
 }
 
 
