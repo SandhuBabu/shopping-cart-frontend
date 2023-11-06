@@ -13,7 +13,8 @@ export const getProductById = (id) => {
 export const getAllProductsPaginated = (pageNo) => {
    return openApi.get(`/products?pageNo=${pageNo}`)
       .then(res => {
-         return {error: false, data: res.data}
+         const {content, ...rest} = res?.data
+         return {error: false, data: content, ...rest}
       })
       .catch(err => {
          const error = err?.response?.data

@@ -9,15 +9,16 @@ export {
 
 // admin components
 const LazyAdminHeader = lazy(() => import('./AdminComponents/Header/Header'));
-const LazyDataTable = lazy(() => import('./AdminComponents/DataTable/DataTable'));
+const LazyProductsTable = lazy(() => import('./AdminComponents/DataTable/ProductsTable'));
 
 export {
     LazyAdminHeader as AdminHeader,
-    LazyDataTable as DataTable,
+    LazyProductsTable as ProductsTable,
 }
 
 
 
+// commons components
 const LazyLoginModal = lazy(() => import('./CommonComponents/Auth/LoginModal'));
 const LazySignup = lazy(() => import('./CommonComponents/Auth/Signup'));
 const LazyNavbar = lazy(() => import('../components/CommonComponents/Navbar/Navbar'));
@@ -27,6 +28,7 @@ const LazyNewItems = lazy(() => import('./UserComponents/Home/NewItems'));
 const LazyItemCard = lazy(() => import('./CommonComponents/Card/ItemCard'));
 const LazyProductPageImage = lazy(() => import('./CommonComponents/Card/ProductPageImage'));
 const LazyFooter = lazy(() => import('./CommonComponents/Footer/Footer'));
+const LazyPagination = lazy(() => import('./CommonComponents/Pagination/Pagination'))
 
 // export commons
 export {
@@ -38,6 +40,7 @@ export {
   LazyItemCard as ItemCard,
   LazyProductPageImage as ProductPageImage,
   LazyFooter as Footer,
+  LazyPagination as Pagination,
 };
 
 export {Input} from './CommonComponents/FormElements/Input'
