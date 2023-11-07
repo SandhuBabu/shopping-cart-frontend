@@ -29,6 +29,9 @@ const LazyItemCard = lazy(() => import('./CommonComponents/Card/ItemCard'));
 const LazyProductPageImage = lazy(() => import('./CommonComponents/Card/ProductPageImage'));
 const LazyFooter = lazy(() => import('./CommonComponents/Footer/Footer'));
 const LazyPagination = lazy(() => import('./CommonComponents/Pagination/Pagination'))
+const LazyBreadCrumb = lazy(() => import('./CommonComponents/BreadCrumbs/BreadCrumbs'))
+const LazyModal = lazy(() => import('./CommonComponents/Modal/Modal'))
+const LazyAlert = lazy(() => import('./CommonComponents/Alert/Alert'))
 
 // export commons
 export {
@@ -41,6 +44,9 @@ export {
   LazyProductPageImage as ProductPageImage,
   LazyFooter as Footer,
   LazyPagination as Pagination,
+  LazyBreadCrumb as BreadCrumb,
+  LazyModal as Modal,
+  LazyAlert as Alert,
 };
 
 export {Input} from './CommonComponents/FormElements/Input'

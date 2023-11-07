@@ -10,14 +10,14 @@ export const getProductById = (id) => {
       })
 }
 
-export const getAllProductsPaginated = (pageNo) => {
-   return openApi.get(`/products?pageNo=${pageNo}`)
+export const getAllProductsPaginated = (pageNo, sort, signal) => {
+   return openApi.get(`/products?pageNo=${pageNo}&pageSize=10&sort=${sort}`, { signal })
       .then(res => {
-         const {content, ...rest} = res?.data
-         return {error: false, data: content, ...rest}
+         const { content, ...rest } = res?.data
+         return { error: false, data: content, ...rest }
       })
       .catch(err => {
          const error = err?.response?.data
-         return { data:error, error: true }
+         return { data: error, error: true }
       })
 }

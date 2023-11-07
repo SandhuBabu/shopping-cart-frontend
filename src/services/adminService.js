@@ -31,3 +31,14 @@ export const editProductEndpoint = (product, id) => {
         throw message
     })
 }
+
+export const deleteProductById = (id) => {
+    return adminApi.delete(`/deleteProduct/${id}`)
+    .then(res => {
+        console.log(res?.data);
+        return {error:false, message: res?.data?.message}
+    }).catch(err => {
+        const message = err?.response?.data?.message;
+        return {error: false, message}
+    })
+}

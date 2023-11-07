@@ -48,7 +48,7 @@ const Footer = () => {
           </div>
         </nav>
       </div>
-      <p className='text-center text-sm'>Copyright © 2023 - All right reserved by Shopping Cart Pvt Ltd</p>
+      <p className='text-center font-[200] text-sm'>Copyright © 2023 - All right reserved by Shopping Cart Pvt Ltd</p>
     </footer>
   )
 }

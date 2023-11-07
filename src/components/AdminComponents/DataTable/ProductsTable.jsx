@@ -1,9 +1,15 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
+import Select from '../../CommonComponents/FormElements/Select'
 
-const ProductsTable = ({ heading, body, handleDelete }) => {
+const pageOptions = [3, 5, 7, 10, 15]
+
+const ProductsTable = ({ heading, body, totalPages, currentPage, handleDelete, setPageSize }) => {
 
     return (
         <div className="overflow-x-auto">
+            <h1 className='text-3xl text-center my-5'>All Products</h1>
+
             <table className="table">
                 {/* head */}
                 <thead>
@@ -20,34 +26,33 @@ const ProductsTable = ({ heading, body, handleDelete }) => {
                 {/* body */}
                 <tbody>
                     {
-                        body.map((row, i) =>(
-                        <tr key={i} className='hover:bg-base-200'>
-                        <td>{i+1}</td>
-                        {
-                            Object.entries(row).map(([k, v], key) => (
-                                <td key={key}>
-                                    {
-                                        k === "imageUrl" ?
-                                            <div className="avatar">
-                                                <div className="rounded-lg w-12 h-12">
-                                                    <img src={v} alt="" />
-                                                </div>
-                                            </div>
-                                            :
-                                            v
-                                    }
+                        body.map((row, i) => (
+                            <tr key={i} className='hover:bg-base-200'>
+                                <td>{i + 1}</td>
+                                <td>
+                                    <div className="avatar">
+                                        <div className="rounded-lg w-12 h-12">
+                                            <img src={row?.imageUrl} alt="" />
+                                        </div>
+                                    </div>
                                 </td>
-                            ))
-                        }
-                        <td>
-                            <button className='btn btn-circle' onClick={() => handleDelete(row.id)}>
-                                <span className="material-symbols-outlined text-red-400">
-                                    delete
-                                </span>
-                            </button>
-                        </td>
-                    </tr>
-                    ))}
+                                <td>
+                                    <div className="tooltip" data-tip="Go to product">
+                                        <Link to={`/product/${row?.id}`}>{row?.title}</Link>
+                                    </div>
+                                </td>
+                                <td>{row?.category}</td>
+                                <td className='text-center'>{row?.price}</td>
+                                <td className='text-center'>{row?.stockAvailable}</td>
+                                <td>
+                                    <button className='btn btn-circle' onClick={() => handleDelete(row.id)}>
+                                        <span className="material-symbols-outlined text-red-400">
+                                            delete
+                                        </span>
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
                 </tbody>
 
                 {/* foot */}
@@ -62,8 +67,12 @@ const ProductsTable = ({ heading, body, handleDelete }) => {
                         }
                     </tr>
                 </tfoot>
-
             </table>
+            <p className='mt-5 ml-3 tracking-wide font-[300]'>
+                Showing
+                <span> {currentPage}</span> of
+                <span> {totalPages}</span> pages
+            </p>
         </div>
     )
 }

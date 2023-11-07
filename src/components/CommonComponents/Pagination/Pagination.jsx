@@ -1,9 +1,13 @@
 import React from 'react'
 
-const Pagination = ({ details, handleNext, handlePrev }) => {
+const Pagination = ({ details, handleNext, handlePrev, handleFirstOrLastPageClick }) => {
     return (
         <div className='w-full flex justify-center items-center mt-8 gap-6'>
-            <button className="btn btn-sm" disabled={details?.first}>1</button>
+            <button
+                className="btn btn-sm"
+                disabled={details?.first}
+                onClick={() => handleFirstOrLastPageClick(1)}
+            >1</button>
             <button
                 className="btn btn-sm"
                 disabled={details?.first}
@@ -23,7 +27,11 @@ const Pagination = ({ details, handleNext, handlePrev }) => {
                 onClick={handleNext}
             >»</button>
 
-            <button className="btn btn-sm" disabled={details?.last}>{details.totalPages}</button>
+            <button 
+            className="btn btn-sm" 
+            disabled={details?.last}
+            onClick={() => handleFirstOrLastPageClick(details?.totalPages)}
+            >{details.totalPages}</button>
         </div>
     )
 }
