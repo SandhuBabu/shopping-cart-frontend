@@ -1,8 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { getAllProductsPaginated } from '../../services/productService'
-import { Alert, BreadCrumb, Modal, Pagination, ProductsTable, Select } from '../../components'
+import { Alert, BreadCrumb, Modal, Pagination, ProductsTable } from '../../components'
 import { setAdminTitle } from '../../utils/utils'
 import { deleteProductById } from '../../services/adminService'
+import { Link, useNavigate } from 'react-router-dom'
+import { scrollToTop } from '../../utils/utils'
 
 const heading = [
     "Image",
@@ -31,9 +33,17 @@ const ProductsList = () => {
     const [alertMessage, setAlertMessage] = useState({ message: '', type: '' });
     const [modalOpen, setModalOpen] = useState(false);
     const [pageMetaData, setPageMetaData] = useState({});
+    const [modalData, setModalData] = useState({
+        isOpen: false,
+        actionText: "",
+        actionLabel: "",
+        action: null,
+        actionLabelVariant: ""
+    })
 
     const controller = new AbortController();
     const signal = controller.signal;
+    const navigate = useNavigate();
     setAdminTitle("Admin All Products")
 
     useEffect(() => {
@@ -43,6 +53,7 @@ const ProductsList = () => {
     }, [])
 
     const handleGetProduct = useCallback(async () => {
+        scrollToTop();
         const { error, data, ...rest } = await getAllProductsPaginated(page, true, signal);
         if (error) {
             setError(error)
@@ -65,27 +76,8 @@ const ProductsList = () => {
     }, [products])
 
     const handleFirstOrLastPageClick = useCallback(async (pageNo) => {
-        const { error, data, ...rest } = await getAllProductsPaginated(pageNo, true, signal);
-        if (error) {
-            setError(error)
-            return
-        }
-
-        setPageMetaData(rest)
-
-        const filterProducts = data.map(item => {
-            return {
-                id: item.id,
-                imageUrl: item.imageUrl,
-                title: item.title,
-                category: item.category,
-                price: item.price,
-                stockAvailable: item.stockAvailable
-            }
-        })
-
-
-        setProducts(filterProducts)
+        page=pageNo;
+        handleGetProduct();
     }, [products])
 
 
@@ -100,18 +92,45 @@ const ProductsList = () => {
     }, [])
 
     const handleDelete = useCallback((id) => {
+        setModalData({
+            actionText: "Are you sure to delete",
+            actionLabel: "Yes, Delete",
+            action: confirmDelete,
+            actionLabelVariant: "text-red-400"
+        })
+
         deleteData = { active: true, id: id }
         if (id < 1) return
         setModalOpen(true)
     }, [products])
 
+    const handleEdit = useCallback((id) => {
+        console.log(id);
+        setModalOpen(true)
+        setModalData({
+            actionText: "Are you sure to edit",
+            actionLabel: "Yes, Edit",
+            action: () => {
+                setModalOpen(false)
+                setTimeout(()=>{
+                    navigate(`/editProduct/${id}`)
+                }, [1])
+            },
+            actionLabelVariant: "text-primary"
+        })
+    }, [])
+
     const confirmDelete = useCallback(async () => {
         const { id } = deleteData
         setModalOpen(false)
+        setModalData({
+            actionText: "",
+            actionLabel: "",
+            action: null,
+            actionLabelVariant: ""
+        })
 
         const { error, message } = await deleteProductById(id);
-
-        console.log(message);
 
         if (error) {
             setAlertMessage({ type: 'bg-red-400', message })
@@ -130,6 +149,8 @@ const ProductsList = () => {
         setError(false);
         setAlertMessage('');
     }
+
+
     return (
         <>
             {
@@ -144,13 +165,18 @@ const ProductsList = () => {
             <BreadCrumb breadCrumbsOptions={breadCrumbsOptions} />
 
 
-            <section className='w-[100%] min-h-[70vh] flex justify-center p-3 rounded-lg'>
+
+            <section className='w-full min-h-[70vh] flex flex-col justify-center  p-3 md:px-[5em] rounded-lg'>
+
+                <Link to='/addProduct' className='btn btn-primary text-white text-[12px] w-[10em] '>Add Product</Link>
+
                 {
                     !error &&
                     <ProductsTable
                         heading={heading}
                         body={products}
                         handleDelete={handleDelete}
+                        handleEdit={handleEdit}
                         currentPage={pageMetaData?.pageNo}
                         totalPages={pageMetaData?.totalPages}
                     />
@@ -166,10 +192,10 @@ const ProductsList = () => {
             <Modal
                 isOpen={modalOpen}
                 cancel={() => setModalOpen(false)}
-                actionText="Are you sure to delete"
-                actionLabel="Yes, Delete"
-                action={confirmDelete}
-                actionLabelVariant="text-red-400"
+                actionText={modalData.actionText}
+                actionLabel={modalData.actionLabel}
+                action={modalData.action}
+                actionLabelVariant={modalData.actionLabelVariant}
             />
         </>
     )

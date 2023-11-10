@@ -1,8 +1,26 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
 import { Footer, Navbar } from '..'
+import Sidebar from '../AdminComponents/Sidebar/Sidebar'
+import './AdminLayout.css'
 
 const AdminLayout = () => {
+
+
+    return (
+        <>
+            <Navbar />
+            <Sidebar />
+            <main className='admin-layout'>
+                <section className='admin-layout-content'>
+                    <Outlet />
+                </section>
+                <Footer />
+            </main>
+        </>
+    )
+
+
     return (
         <main>
             <Navbar />

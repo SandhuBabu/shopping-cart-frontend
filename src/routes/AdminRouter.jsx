@@ -7,7 +7,7 @@ import {
     EditProductPage, 
     NotFound404, 
     ProductPage,
-    ProductsList 
+    AdminProductsList
 } from '../pages'
 
 
@@ -43,7 +43,7 @@ const AdminRouter = () => {
                     path='/products'
                     element={
                         <Suspense fallback={<>Loading Admin ProductList Page</>}>
-                            <ProductsList />
+                            <AdminProductsList />
                         </Suspense>
                     }
                 />

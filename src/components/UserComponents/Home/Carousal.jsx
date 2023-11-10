@@ -26,11 +26,20 @@ export default React.memo(Carousal)
 
 
 const ImageContainer = ({ id, src, next, prev }) => {
-    return <div id={id} className="carousel-item relative w-full">
-        <img src={src} className="w-full" />
-        <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
+    return (
+        <div id={id} className="carousel-item relative w-full">
+            <img src={src} className="w-full" />
+
+            <div className='h-[.5em] w-full absolute bottom-1 flex gap-2 justify-center'>
+                <a href='#slide1' className='w-[.5em] h[.5em] bg-[#f3eeee] rounded-full'></a>
+                <a href='#slide2' className='w-[.5em] h[.5em] bg-[#f3eeee] rounded-full'></a>
+                <a href='#slide3' className='w-[.5em] h[.5em] bg-[#f3eeee] rounded-full'></a>
+            </div>
+
+            {/* <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
             <a href={prev} className="btn btn-circle">❮</a>
             <a href={next} className="btn btn-circle">❯</a>
+        </div> */}
         </div>
-    </div>
+    )
 }

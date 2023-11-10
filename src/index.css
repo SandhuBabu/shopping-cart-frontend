@@ -13,6 +13,10 @@
   outline-offset: none;
 }
 
+body {
+  scroll-behavior: smooth;
+}
+
 .input:focus,
 .select:focus,
 .textarea:focus{
@@ -24,4 +28,6 @@ dialog.modal {
   backdrop-filter: blur(5px);
 }
 
-
+body {
+  scroll-behavior: smooth;
+}

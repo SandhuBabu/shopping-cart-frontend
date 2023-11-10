@@ -1,7 +1,7 @@
 import { openApi } from "../config/api"
 
-export const getProductById = (id) => {
-   return openApi.get(`/products/${id}`)
+export const getProductById = (id, signal) => {
+   return openApi.get(`/products/${id}`, {signal})
       .then(res => {
          return { error: false, ...res.data }
       }).catch(err => {
@@ -20,4 +20,16 @@ export const getAllProductsPaginated = (pageNo, sort, signal) => {
          const error = err?.response?.data
          return { data: error, error: true }
       })
+}
+
+export const getNewArrivals = () => {
+   return openApi.get("/products/newArrivals")
+      .then(res => res?.data)
+      .catch(err => [])
+}
+
+export const getBudgetFriendlyProducts = () => {
+   return openApi.get("/products/budgetProducts")
+      .then(res => res?.data ?? [])
+      .catch(() => [])
 }

@@ -10,10 +10,12 @@ export {
 // admin components
 const LazyAdminHeader = lazy(() => import('./AdminComponents/Header/Header'));
 const LazyProductsTable = lazy(() => import('./AdminComponents/DataTable/ProductsTable'));
+const LazyAdminSidebar = lazy(() => import('./AdminComponents/Sidebar/Sidebar'));
 
 export {
     LazyAdminHeader as AdminHeader,
     LazyProductsTable as ProductsTable,
+    LazyAdminSidebar as AdminSidebar,
 }
 
 
@@ -32,6 +34,8 @@ const LazyPagination = lazy(() => import('./CommonComponents/Pagination/Paginati
 const LazyBreadCrumb = lazy(() => import('./CommonComponents/BreadCrumbs/BreadCrumbs'))
 const LazyModal = lazy(() => import('./CommonComponents/Modal/Modal'))
 const LazyAlert = lazy(() => import('./CommonComponents/Alert/Alert'))
+const LazyProductsList = lazy(()=>import('./CommonComponents/Products/ProductsList'))
+const LazySomethingwrong = lazy(()=>import('./CommonComponents/SomethingWrong/SomethingWrong'))
 
 // export commons
 export {
@@ -47,6 +51,8 @@ export {
   LazyBreadCrumb as BreadCrumb,
   LazyModal as Modal,
   LazyAlert as Alert,
+  LazyProductsList as ProductsList,
+  LazySomethingwrong as SomethingWrong
 };
 
 export {Input} from './CommonComponents/FormElements/Input'

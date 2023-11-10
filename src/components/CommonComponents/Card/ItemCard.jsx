@@ -1,18 +1,18 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const ItemCard = () => {
+const ItemCard = ({ item, width }) => {
     return (
-        <Link to="/product/1">
-            <div className="card w-full bg-base-100 hover:bg-base-300 hover:shadow-xl p-3">
-                <figure style={{ borderRadius: '.5em' }}>
-                    <img src="https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg" alt="Shoes" />
+        <Link to={`product/${item?.id}`}>
+            <div className={`card w-[${width}] h-[25em] bg-base-100 hover:shadow-xl p-3`}>
+                <figure className='rounded-lg'>
+                    <img src={item?.imageUrl} alt="Shoes" className='w-full object-cover' />
                 </figure>
-                <div className="card-body">
-                    <h2 className="card-title text-center">
-                        Lorem, ipsum dolor
+                <div className="card-body h-auto px-3 py-5">
+                    <h2 className="text-xl overflow-hidden text-ellipsis whitespace-nowrap">
+                        {item?.title}
                     </h2>
-                    <p>₹ 877</p>
+                    <p className='text-lg'>₹ <span className='font-bold'>{item.price}</span></p>
                 </div>
             </div>
         </Link>
@@ -20,4 +20,4 @@ const ItemCard = () => {
     )
 }
 
-export default ItemCard
+export default React.memo(ItemCard)

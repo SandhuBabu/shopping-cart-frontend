@@ -1,0 +1,40 @@
+#sidebar {
+    width: 6em;
+    height: 100vh;
+    position: fixed;
+    top: 5em;
+    z-index: 99;
+    padding: 0 5px;
+    transition: 100ms;
+}
+
+#sidebar:hover {
+    width: 15em;
+    padding: 0 .5em;
+}
+
+#sidebar::-webkit-scrollbar {
+    display: none;
+}
+
+#sidebar:hover .nav-link {
+    flex-direction: row;
+    column-gap: 1em;
+    padding: .75em;
+}
+
+#sidebar:hover .nav-link p {
+    font-size: 14px;
+}
+
+.nav-link {
+    padding: 10px;
+    border-radius: 5px;
+    color: #6419e6;
+}
+
+.nav-link.active,
+.nav-link.active:hover {
+    background-color: #6419e6;
+    color: #fff;
+}

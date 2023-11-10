@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
 const Modal = ({ isOpen, cancel, action, actionText, actionLabel, actionLabelVariant }) => {
 
@@ -14,11 +14,12 @@ const Modal = ({ isOpen, cancel, action, actionText, actionLabel, actionLabelVar
         <section
             style={{
                 visibility: isOpen ? 'visible' : 'hidden',
-                backgroundColor: 'rgba(0,0,0,0.6)'
+                backgroundColor: 'rgba(0,0,0,0.6)',
+                height: '100vh'
             }}
-            className='opacity-1 z-[99] w-full h-[100%] absolute left-0 top-0 px-6 flex items-center justify-center'
+            className='opacity-1 z-[99] w-full h-[100%] fixed left-0 top-0 bottom-0 px-6 flex items-center justify-center'
         >
-            <div className='w-[65%] md:w-[30em] transform translate-y-[4em] rounded-lg bg-base-300 px-8 py-6'>
+            <div className='w-[65%] md:w-[30em]  rounded-lg bg-base-300 px-8 py-6'>
                 <h1 className='text-xl my-4'>{actionText}</h1>
 
                 <div className='float-right my-3'>

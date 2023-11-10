@@ -1,25 +1,31 @@
 import React, { useCallback, useState } from 'react'
 import { addProductEndpoint } from '../../services/adminService';
-import { Input, Select } from '../../components';
+import { BreadCrumb, Input, Select } from '../../components';
 import { refresh } from '../../services/authService';
 import { setAdminTitle } from '../../utils/utils';
 import { useNavigate } from 'react-router-dom';
 
 
-const genderOptions = ["male", "female", "unisex"]
+const genderOptions = ["unisex", "female", "male"]
 
+const breadCrumbsOptions = [
+    { title: "Dashboard", path: "/" },
+    { title: "Products", path: '/products' },
+    { title: "Add Product" }
+]
 
 const AddProduct = () => {
 
     setAdminTitle("Add Product");
 
+    const [updating, setUpdating] = useState(false)
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
     const [product, setProduct] = useState({
         title: '',
         category: '',
-        gender: '',
+        gender: 'unisex',
         image: '',
         price: 0,
         stockAvailable: 0,
@@ -36,8 +42,7 @@ const AddProduct = () => {
     }, [])
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        // const formData = new FormData(e.target);
+        setUpdating(true);
         e.preventDefault();
 
         const formData = new FormData();
@@ -46,7 +51,7 @@ const AddProduct = () => {
         })
 
         try {
-            const res = await addProductEndpoint(formData);
+            await addProductEndpoint(formData);
             setError("");
             navigate("/");
         } catch (err) {
@@ -56,44 +61,56 @@ const AddProduct = () => {
                 return
             }
             setError(err);
+        } finally {
+            setUpdating(false)
         }
     }
 
 
 
     return (
-        <section className='w-full px-4 flex justify-center pb-16'>
-            <form onSubmit={handleSubmit} className='w-full lg:w-[40em]'>
-                <h1 className='text-center text-3xl my-3'>Create Account</h1>
+        <>
+            <BreadCrumb breadCrumbsOptions={breadCrumbsOptions} />
+            <section className='w-full min-h-screen px-4 flex justify-center pb-16'>
+                <form onSubmit={handleSubmit} className='w-full lg:w-[40em]'>
+                    <h1 className='text-center text-3xl my-3'>Create Account</h1>
 
-                <Input type="text" value={product.title} onChange={handleChange} title="title" name="title" />
+                    <Input type="text" value={product.title} onChange={handleChange} title="title" name="title" />
 
-                <Input type="text" value={product.category} onChange={handleChange} title="category" name="category" />
+                    <Input type="text" value={product.category} onChange={handleChange} title="category" name="category" />
 
-                <Select onChange={handleChange} defaultValue={product.gender.toLowerCase()} options={genderOptions} title="Gender" name="gender" />
+                    <Select onChange={handleChange} defaultValue={product.gender.toLowerCase()} options={genderOptions} title="Gender" name="gender" />
 
-                <Input type="file" onChange={handleChange} title="Image" accept="image/*" name="image" />
+                    <Input type="file" onChange={handleChange} title="Image" accept="image/*" name="image" />
 
-                <Input type="number" value={product.price} onChange={handleChange} title="price" name="price" />
+                    <Input type="number" value={product.price} onChange={handleChange} title="price" name="price" />
 
-                <Input type="number" value={product.stockAvailable} onChange={handleChange} title='Stocks Available' name='stockAvailable' />
+                    <Input type="number" value={product.stockAvailable} onChange={handleChange} title='Stocks Available' name='stockAvailable' />
 
-                <Input type='textarea' value={product.description} onChange={handleChange} title="Description" name="description" />
+                    <Input type='textarea' value={product.description} onChange={handleChange} title="Description" name="description" />
 
-                {
-                    error &&
-                    <p className='flex gap-1 text-sm my-3 text-red-400'>
+                    {
+                        error &&
+                        <p className='flex gap-1 text-sm my-3 text-red-400'>
 
-                        <span className="material-symbols-outlined text-[20px]">error</span>
-                        <span>{error}, </span>
-                    </p>
-                }
+                            <span className="material-symbols-outlined text-[20px]">error</span>
+                            <span>{error}, </span>
+                        </p>
+                    }
 
-                <div className='flex justify-center mt-12'>
-                    <button className="btn btn-primary w-full" type='submit'>Create new product</button>
-                </div>
-            </form>
-        </section>
+                    <div className='flex justify-center mt-12'>
+                        <button
+                            className="btn btn-primary w-full"
+                            type='submit'
+                            disabled={updating}
+                        >
+                            {updating && <span className="loading loading-spinner"></span>}
+                            Add product
+                        </button>
+                    </div>
+                </form>
+            </section>
+        </>
     )
 }
 

@@ -20,14 +20,16 @@ export {
   LazyAdminHomePage as AdminHomePage,
   LazyAddProductPage as AddProductPage,
   LazyEditProductPage as EditProductPage,
-  LazyProductList as ProductsList,
+  LazyProductList as AdminProductsList,
 }
 
 
 
 //  common pages
 const LazyNotFound404 = lazy(() => import('./404/NotFound404'));
+const LazyCategoryPage = lazy(() => import('./ProductPage/CategoryPage'))
 export {
   LazyNotFound404 as NotFound404,
+  LazyCategoryPage as CategoryPage
 };
 

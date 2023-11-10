@@ -1,25 +1,29 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
-import { Input, Select } from '../../components';
+import { BreadCrumb, Input, Select } from '../../components';
 import { refresh } from '../../services/authService';
-import { setAdminTitle } from '../../utils/utils';
+import { scrollToTop, setAdminTitle } from '../../utils/utils';
 import { editProductEndpoint } from '../../services/adminService';
 import { getProductById } from '../../services/productService';
 import { NotFound404 } from '..';
 
 const genderOptions = ["male", "female", "unisex"]
 
+const breadCrumbsOptions = [
+    { title: "Dashboard", path: "/" },
+    { title: "Products", path:'/products' },
+    { title: "Edit Product" }
+]
+
 const EditProduct = () => {
 
-    /**
-     * fetch product data and set image url to another variable for seeing image when input handle change works
-     */
 
     const navigate = useNavigate();
     const { id } = useParams();
 
     const [error, setError] = useState(false);
     const [load, setLoad] = useState(false);
+    const [updating, setUpdating] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
     const [savedImageUrl, setSavedImageUrl] = useState('')
     const [product, setProduct] = useState({
@@ -35,7 +39,14 @@ const EditProduct = () => {
     })
 
     useEffect(() => {
+        scrollToTop()
         loadProduct();
+
+        document.getElementById('Products').classList.add('active')
+        return () => {
+            document.getElementById('Products').classList.remove('active')
+            scrollToTop()
+        }
     }, [])
 
     const loadProduct = async () => {
@@ -57,6 +68,7 @@ const EditProduct = () => {
     }
 
     const handleSubmit = async (e) => {
+        setUpdating(true)
         e.preventDefault();
 
         const formData = new FormData();
@@ -76,6 +88,8 @@ const EditProduct = () => {
                 return
             }
             setErrorMessage(err);
+        } finally{
+            setUpdating(false)
         }
     }
 
@@ -97,48 +111,59 @@ const EditProduct = () => {
 
     return (
         load &&
-        <section className='w-full px-4 flex justify-center pb-16'>
-            <form onSubmit={handleSubmit} className='w-full lg:w-[40em]'>
-                <h1 className='text-center text-3xl my-3'>Edit Product - {product.id}</h1>
+        <>
+            <BreadCrumb breadCrumbsOptions={breadCrumbsOptions} />
 
-                <Input type="text" value={product.title} onChange={handleChange} title="title" name="title" />
+            <section className='w-full px-4 flex justify-center pb-16'>
+                <form onSubmit={handleSubmit} className='w-full lg:w-[40em]'>
+                    <h1 className='text-center text-3xl my-3'>Edit Product - {product.id}</h1>
 
-                <Input type="text" value={product.category} onChange={handleChange} title="category" name="category" />
+                    <Input type="text" value={product.title} onChange={handleChange} title="title" name="title" />
 
-                <Select onChange={handleChange} defaultValue={product.gender.toLowerCase()} options={genderOptions} title="Gender" name="gender" />
+                    <Input type="text" value={product.category} onChange={handleChange} title="category" name="category" />
 
-
-                <figure className='px-3 py-3 mt-14 w-[max-content] rounded-lg bg-base-300'>
-                    <img
-                        src={savedImageUrl}
-                        alt="product"
-                        className="rounded-xl w-[15em]"
-                    />
-                </figure>
-                <Input type="file" onChange={handleChange} title="Image" accept="image/*" name="image" />
-
-                <Input type="number" value={product.price} onChange={handleChange} title="price" name="price" />
-
-                <Input type="number" value={product.stockAvailable} onChange={handleChange} title='Stocks Available' name='stockAvailable' />
-
-                <Input type='textarea' value={product.description} onChange={handleChange} title="Description" name="description" />
-
-                {
-                    errorMessage &&
-                    <p className='flex gap-1 text-sm my-3 text-red-400'>
-
-                        <span className="material-symbols-outlined text-[20px]">error</span>
-                        <span>{errorMessage}</span>
-                    </p>
-                }
-
-                <div className='flex justify-center mt-12'>
-                    <button className="btn btn-primary w-full" type='submit'>Update product</button>
-                </div>
+                    <Select onChange={handleChange} defaultValue={product.gender.toLowerCase()} options={genderOptions} title="Gender" name="gender" />
 
 
-            </form>
-        </section>
+                    <figure className='px-3 py-3 mt-14 w-[max-content] rounded-lg bg-base-300'>
+                        <img
+                            src={savedImageUrl}
+                            alt="product"
+                            className="rounded-xl w-[15em]"
+                        />
+                    </figure>
+                    <Input type="file" onChange={handleChange} title="Image" accept="image/*" name="image" />
+
+                    <Input type="number" value={product.price} onChange={handleChange} title="price" name="price" />
+
+                    <Input type="number" value={product.stockAvailable} onChange={handleChange} title='Stocks Available' name='stockAvailable' />
+
+                    <Input type='textarea' value={product.description} onChange={handleChange} title="Description" name="description" />
+
+                    {
+                        errorMessage &&
+                        <p className='flex gap-1 text-sm my-3 text-red-400'>
+
+                            <span className="material-symbols-outlined text-[20px]">error</span>
+                            <span>{errorMessage}</span>
+                        </p>
+                    }
+
+                    <div className='flex justify-center mt-12'>
+                        <button
+                            className="btn btn-primary w-full"
+                            type='submit'
+                            disabled={updating}
+                        >
+                            {updating && <span className="loading loading-spinner"></span>}
+                            Update product
+                        </button>
+                    </div>
+
+
+                </form>
+            </section>
+        </>
     )
 }
 

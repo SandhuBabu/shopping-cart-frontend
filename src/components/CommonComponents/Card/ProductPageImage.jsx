@@ -1,15 +1,9 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback } from 'react'
 import { useSelector } from 'react-redux'
 
-const ProductPageImage = () => {
+const ProductPageImage = ({src}) => {
 
     const user = useSelector(store => store.user)
-
-    useEffect(() => {
-        console.log("Product image mount");
-
-        return () => console.log("Product image unmount");
-    }, [])
 
     const handleBuy = useCallback(() => {
         console.log("CLICKED_BUY");
@@ -31,12 +25,13 @@ const ProductPageImage = () => {
     }, [user])
 
     return (
-        <div className='flex bg-neutral-300 select-none flex-col items-center my-7 justify-center relative md:sticky top-[5em]  md:w-[50%] lg:w-40% max-h-[80vh] py-4 rounded-xl'>
+        <div className='flex bg-neutral-300 select-none flex-col items-center my-7 justify-center relative md:sticky top-[6em]  md:w-[50%] lg:w-40% max-h-[80vh] py-4 rounded-xl'>
             <img
                 loading='lazy'
                 draggable={false}
                 className='max-h-[30em] max-w-[80%] mix-blend-multiply'
-                src='https://m.media-amazon.com/images/I/71NrUXG01QL._AC_UF1000,1000_QL80_.jpg'
+                src={src}
+                // src='https://m.media-amazon.com/images/I/71NrUXG01QL._AC_UF1000,1000_QL80_.jpg'
             />
 
             {

@@ -15,6 +15,7 @@ const NotFound404 = () => {
       <Link
         to="/"
         className='btn btn-primary rounded-full px-8'
+        replace
       >Go Home</Link>
     </div>
   )

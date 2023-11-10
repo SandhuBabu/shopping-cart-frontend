@@ -4,7 +4,7 @@ import Select from '../../CommonComponents/FormElements/Select'
 
 const pageOptions = [3, 5, 7, 10, 15]
 
-const ProductsTable = ({ heading, body, totalPages, currentPage, handleDelete, setPageSize }) => {
+const ProductsTable = ({ heading, body, totalPages, currentPage, handleDelete, handleEdit, setPageSize }) => {
 
     return (
         <div className="overflow-x-auto">
@@ -37,14 +37,19 @@ const ProductsTable = ({ heading, body, totalPages, currentPage, handleDelete, s
                                     </div>
                                 </td>
                                 <td>
-                                    <div className="tooltip" data-tip="Go to product">
+                                    <div className="tooltip" data-tip={`View ${row.title}`}>
                                         <Link to={`/product/${row?.id}`}>{row?.title}</Link>
                                     </div>
                                 </td>
                                 <td>{row?.category}</td>
                                 <td className='text-center'>{row?.price}</td>
                                 <td className='text-center'>{row?.stockAvailable}</td>
-                                <td>
+                                <td className='flex gap-3'>
+                                    <button className='btn btn-circle' onClick={() => handleEdit(row.id)}>
+                                        <span className="material-symbols-outlined text-yellow-400">
+                                            edit
+                                        </span>
+                                    </button>
                                     <button className='btn btn-circle' onClick={() => handleDelete(row.id)}>
                                         <span className="material-symbols-outlined text-red-400">
                                             delete

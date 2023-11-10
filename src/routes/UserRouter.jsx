@@ -1,7 +1,12 @@
 import React, { Suspense } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import MainLayout from '../components/Layout/MainLayout'
-import { HomePage, NotFound404, ProductPage } from '../pages'
+import {
+    CategoryPage,
+    HomePage,
+    NotFound404,
+    ProductPage
+} from '../pages'
 import { Signup } from '../components'
 
 
@@ -30,6 +35,14 @@ const UserRouter = () => {
                     element={
                         <Suspense fallback={<>Product page loading</>}>
                             <ProductPage />
+                        </Suspense>
+                    }
+                />
+                <Route
+                    path='/category/:cat'
+                    element={
+                        <Suspense fallback={<>Products loading</>}>
+                            <CategoryPage />
                         </Suspense>
                     }
                 />

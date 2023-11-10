@@ -5,7 +5,7 @@ import { LoginModal } from '../..';
 import NavRight from './NavRight';
 import SearchModal from './SearchModal';
 
-const Navbar = () => {
+const Navbar = ({open}) => {
 
   const user = useSelector(state => state.user);
 
@@ -13,21 +13,11 @@ const Navbar = () => {
     document.getElementById("search_modal").showModal();
   }
 
+
   return (
     <>
-      <div style={{ zIndex: 99 }} className="navbar bg-base-100 shadow-xl sticky top-0 px-8 h-[5em]">
-        <div className="flex-1">
-
-          {
-            user.role === "ADMIN" &&
-            <div className='px-4'>
-              <label htmlFor="my-drawer" className="btn btn-ghost btn-circle">
-                <span style={{ fontSize: '30px' }} className="material-symbols-outlined">
-                  menu
-                </span>
-              </label>
-            </div>
-          }
+      <div style={{ zIndex: 98 }} className="navbar bg-base-100 shadow sticky top-0 px-8 h-[5em]">
+        <div className="flex-1 flex gap-8">
 
           <Link to="/" className="font-semibold text-2xl">
             Shopping Cart
