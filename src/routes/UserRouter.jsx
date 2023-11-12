@@ -5,9 +5,11 @@ import {
     CategoryPage,
     HomePage,
     NotFound404,
-    ProductPage
+    ProductPage,
+    SearchFilterPage
 } from '../pages'
 import { Signup } from '../components'
+import { ProductPageSkeleton, ProductsSkeleton } from '../components/skeletons'
 
 
 const UserRouter = () => {
@@ -33,15 +35,23 @@ const UserRouter = () => {
                 <Route
                     path='/product/:id'
                     element={
-                        <Suspense fallback={<>Product page loading</>}>
+                        <Suspense fallback={<ProductPageSkeleton />}>
                             <ProductPage />
+                        </Suspense>
+                    }
+                />
+                <Route
+                    path='/products'
+                    element={
+                        <Suspense fallback={<ProductsSkeleton />}>
+                            <SearchFilterPage />
                         </Suspense>
                     }
                 />
                 <Route
                     path='/category/:cat'
                     element={
-                        <Suspense fallback={<>Products loading</>}>
+                        <Suspense fallback={<ProductsSkeleton />}>
                             <CategoryPage />
                         </Suspense>
                     }

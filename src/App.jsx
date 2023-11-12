@@ -1,11 +1,10 @@
+import { Suspense, useEffect, useLayoutEffect } from 'react'
 import UserRouter from './routes/UserRouter'
 import AdminRouter from './routes/AdminRouter'
 import { useDispatch, useSelector } from 'react-redux'
 import { setUser } from './features/userSlice'
 import { refresh } from './services/authService'
-import { Suspense, useEffect } from 'react'
 import { getUser } from './services/userService'
-import { Routes } from 'react-router-dom'
 
 function App() {
 
@@ -19,7 +18,7 @@ function App() {
   }, [])
 
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (localStorage.getItem("accessToken")) {
       handleGetUser();
     }
@@ -53,14 +52,23 @@ function App() {
 
 
   if (user?.role === "ADMIN")
-    return <Suspense fallback={<>ADMIN_ROUTES</>}>
+    return <Suspense fallback={<Loading />}>
       <AdminRouter />
     </Suspense>
 
   return <>
-    <Suspense fallback={<>USER_ROUTES</>}>
+    <Suspense fallback={<Loading />}>
       <UserRouter />
     </Suspense>
   </>
 }
 export default App
+
+
+const Loading = () => {
+  return (
+    <div className='w-full h-screen flex items-center justify-center'>
+      <span className="loading loading-ring loading-lg"></span>
+    </div>
+  )
+}

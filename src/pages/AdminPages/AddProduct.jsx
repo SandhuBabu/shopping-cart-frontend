@@ -4,9 +4,14 @@ import { BreadCrumb, Input, Select } from '../../components';
 import { refresh } from '../../services/authService';
 import { setAdminTitle } from '../../utils/utils';
 import { useNavigate } from 'react-router-dom';
+import { categories } from '../../utils/utils';
 
 
-const genderOptions = ["unisex", "female", "male"]
+const genderOptions = [
+    { title: "unisex" },
+    { title: "female" },
+    { title: "male" }
+]
 
 const breadCrumbsOptions = [
     { title: "Dashboard", path: "/" },
@@ -77,7 +82,7 @@ const AddProduct = () => {
 
                     <Input type="text" value={product.title} onChange={handleChange} title="title" name="title" />
 
-                    <Input type="text" value={product.category} onChange={handleChange} title="category" name="category" />
+                    <Select onChange={handleChange} defaultValue={product.category} options={categories} title="Category" name="category" />
 
                     <Select onChange={handleChange} defaultValue={product.gender.toLowerCase()} options={genderOptions} title="Gender" name="gender" />
 

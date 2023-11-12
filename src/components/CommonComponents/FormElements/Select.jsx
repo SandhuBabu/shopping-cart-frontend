@@ -15,8 +15,8 @@ const Select = ({ name, title, options, classNames, defaultValue, onChange }) =>
             >
                 <option disabled>Choose {title}</option>
                 {
-                    options.map(opt => {
-                        return <option value={opt} key={opt}>{opt}</option>
+                    options.map((opt, k) => {
+                        return <option value={opt?.title} key={k}>{opt?.title}</option>
                     })
                 }
             </select>

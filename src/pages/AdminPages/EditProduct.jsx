@@ -2,16 +2,20 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import { BreadCrumb, Input, Select } from '../../components';
 import { refresh } from '../../services/authService';
-import { scrollToTop, setAdminTitle } from '../../utils/utils';
+import { categories, scrollToTop, setAdminTitle } from '../../utils/utils';
 import { editProductEndpoint } from '../../services/adminService';
 import { getProductById } from '../../services/productService';
 import { NotFound404 } from '..';
 
-const genderOptions = ["male", "female", "unisex"]
+const genderOptions = [
+    { title: "unisex" },
+    { title: "female" },
+    { title: "male" }
+]
 
 const breadCrumbsOptions = [
     { title: "Dashboard", path: "/" },
-    { title: "Products", path:'/products' },
+    { title: "Products", path: '/products' },
     { title: "Edit Product" }
 ]
 
@@ -88,7 +92,7 @@ const EditProduct = () => {
                 return
             }
             setErrorMessage(err);
-        } finally{
+        } finally {
             setUpdating(false)
         }
     }
@@ -120,7 +124,7 @@ const EditProduct = () => {
 
                     <Input type="text" value={product.title} onChange={handleChange} title="title" name="title" />
 
-                    <Input type="text" value={product.category} onChange={handleChange} title="category" name="category" />
+                    <Select onChange={handleChange} defaultValue={product.category} options={categories} title="Category" name="category" />
 
                     <Select onChange={handleChange} defaultValue={product.gender.toLowerCase()} options={genderOptions} title="Gender" name="gender" />
 

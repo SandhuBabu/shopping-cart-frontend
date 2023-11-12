@@ -2,7 +2,7 @@ import React from 'react'
 import Logo from "../../assets/not_found.svg"
 import { Link } from 'react-router-dom'
 
-const NotFound404 = () => {
+const NotFound404 = ({ message }) => {
   return (
     <div className='w-full h-[80vh] flex flex-col items-center justify-center'>
       <img
@@ -10,7 +10,14 @@ const NotFound404 = () => {
         src={Logo}
       />
       <p className='text-center my-3'>
-        "The page you're looking for is like a hidden treasure – not found here. Let's navigate home together!"
+        {
+          !message ?
+            <span>
+              The page you're looking for is like a hidden treasure – not found here. Let's navigate home together!
+            </span>
+            :
+            <span>{message}</span>
+        }
       </p>
       <Link
         to="/"

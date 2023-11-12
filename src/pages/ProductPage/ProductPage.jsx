@@ -23,10 +23,10 @@ const ProductPage = () => {
     const [product, setProduct] = useState({});
     const [error, setError] = useState(false)
 
+    scrollToTop()
 
     useEffect(() => {
         handleGetProductData();
-        scrollToTop()
         if (user?.role === "ADMIN")
             document.getElementById('Products').classList.add('active')
         return () => {
@@ -48,7 +48,7 @@ const ProductPage = () => {
     }
 
 
-    if(error) {
+    if (error) {
         return <NotFound404 />
     }
 
@@ -86,10 +86,16 @@ const ProductPage = () => {
                         <span>Price : &nbsp;</span>
                         <span>{product?.price}</span>
                     </p>
-                    <p className='flex items-center gap-2 text-red-400 leading-10'>
+                    <p className={`flex items-center gap-2 ${product.stockAvailable>25?'text-green-400':'text-red-400'} leading-10`}>
                         <span className="material-symbols-outlined">production_quantity_limits</span>
                         <span>In Stock : &nbsp;</span>
-                        <span>{product?.stockAvailable}</span>
+                        {
+                            product?.stockAvailable > 0
+                                ?
+                                <span>{product?.stockAvailable}</span>
+                                :
+                                <span>No Stocks Available</span>
+                        }
                     </p>
                     <p className='flex items-center gap-2 leading-10'>
                         <span className="material-symbols-outlined">keyboard_return</span>
@@ -103,7 +109,7 @@ const ProductPage = () => {
                     </p>
 
                     <p className='mt-7'>{product?.description}</p>
-                    
+
                     <p className='mt-7'>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Saepe facilis accusantium beatae tenetur dolorum molestiae fugiat corporis eveniet porro at quae dicta, asperiores, aperiam eum eos vel illo dolores architecto tempore, voluptatibus sapiente? Consectetur quasi accusantium, nostrum officia error fugiat nemo saepe dolor porro tenetur quibusdam in exercitationem veniam pariatur ducimus suscipit, at ipsum dolores. Veritatis odit nostrum dignissimos error aliquid recusandae, natus laboriosam? Delectus voluptas unde minima iure nulla cupiditate nostrum eius expedita dicta repellendus repudiandae blanditiis qui ad earum reprehenderit vitae esse, consequatur maiores debitis, et quibusdam quis! Laborum reprehenderit eveniet reiciendis quidem quibusdam eligendi beatae doloremque aliquid.</p>
                 </div>
             </section>

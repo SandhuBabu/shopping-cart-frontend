@@ -4,7 +4,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '../Buttons/Button';
 import { logout } from '../../../services/authService';
 import { handleUserLogout } from '../../../features/userSlice';
-import { ButtonSkeleton } from '../../skeletons/ButtonSkeleton';
 import ThemeToggle from './ThemeToggle';
 
 
@@ -45,10 +44,6 @@ const NavRight = () => {
                 Login
             </Button>
         )
-    }
-
-    if (!user.id) {
-        return <ButtonSkeleton />
     }
 
     return (

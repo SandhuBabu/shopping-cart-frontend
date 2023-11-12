@@ -35,6 +35,7 @@ const LazyBreadCrumb = lazy(() => import('./CommonComponents/BreadCrumbs/BreadCr
 const LazyModal = lazy(() => import('./CommonComponents/Modal/Modal'))
 const LazyAlert = lazy(() => import('./CommonComponents/Alert/Alert'))
 const LazyProductsList = lazy(()=>import('./CommonComponents/Products/ProductsList'))
+const LazyProductsFilter = lazy(()=>import('./CommonComponents/Products/ProductsFilter'))
 const LazySomethingwrong = lazy(()=>import('./CommonComponents/SomethingWrong/SomethingWrong'))
 
 // export commons
@@ -51,6 +52,7 @@ export {
   LazyBreadCrumb as BreadCrumb,
   LazyModal as Modal,
   LazyAlert as Alert,
+  LazyProductsFilter as ProductsFilter,
   LazyProductsList as ProductsList,
   LazySomethingwrong as SomethingWrong
 };
