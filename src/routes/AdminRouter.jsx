@@ -1,11 +1,11 @@
 import React, { Suspense } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import AdminLayout from '../components/Layout/AdminLayout'
-import { 
-    AddProductPage, 
-    AdminHomePage, 
-    EditProductPage, 
-    NotFound404, 
+import {
+    AddProductPage,
+    AdminHomePage,
+    EditProductPage,
+    NotFound404,
     ProductPage,
     AdminProductsList
 } from '../pages'
@@ -17,49 +17,27 @@ const AdminRouter = () => {
             <Route path='/' element={<AdminLayout />}>
                 <Route
                     index
-                    element={
-                        <Suspense fallback={<>Loading Admin Page</>}>
-                            <AdminHomePage />
-                        </Suspense>
-                    }
+                    element={<AdminHomePage />}
                 />
                 <Route
                     path='/addProduct'
-                    element={
-                        <Suspense fallback={<>Loading Admin Product Add Page</>}>
-                            <AddProductPage />
-                        </Suspense>
-                    }
+                    element={<AddProductPage />}
                 />
                 <Route
                     path='/editProduct/:id'
-                    element={
-                        <Suspense fallback={<>Loading Admin Product Edit Page</>}>
-                            <EditProductPage />
-                        </Suspense>
-                    }
+                    element={<EditProductPage />}
                 />
                 <Route
                     path='/products'
-                    element={
-                        <Suspense fallback={<>Loading Admin ProductList Page</>}>
-                            <AdminProductsList />
-                        </Suspense>
-                    }
+                    element={<AdminProductsList />}
                 />
                 <Route
                     path='/product/:id'
-                    element={
-                        <Suspense fallback={<>Loading Product Page</>}>
-                            <ProductPage />
-                        </Suspense>
-                    }
+                    element={<ProductPage />}
                 />
                 <Route
                     path='/*'
-                    element={
-                        <NotFound404 />
-                    }
+                    element={<NotFound404 />}
                 />
             </Route>
         </Routes>

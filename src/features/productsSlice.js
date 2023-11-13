@@ -28,10 +28,13 @@ const productSlice = createSlice({
             state.first = true
             state.last = false
             state.empty = true
+        },
+        updateContent: (state, {payload}) => {
+            state.content = payload
         }
     }
 })
 
-export const { addProducts, setProductsEmpty } = productSlice.actions
+export const { addProducts, setProductsEmpty, updateContent } = productSlice.actions
 
 export default productSlice.reducer

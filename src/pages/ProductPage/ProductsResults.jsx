@@ -7,7 +7,7 @@ import { getSearchItems } from '../../services/productService'
 import { addProducts, setProductsEmpty } from '../../features/productsSlice'
 
 
-const Search = () => {
+const ProductsResults = () => {
 
     const [loading, setLoading] = useState(true);
     const [params, setParams] = useSearchParams();
@@ -77,4 +77,4 @@ const Search = () => {
     )
 }
 
-export default React.memo(Search)
+export default React.memo(ProductsResults)

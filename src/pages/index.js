@@ -27,11 +27,13 @@ export {
 
 //  common pages
 const LazyNotFound404 = lazy(() => import('./404/NotFound404'));
-const LazySearchWithFilter = lazy(() => import('./ProductPage/Search'))
+const LazyProductsResults = lazy(() => import('./ProductPage/ProductsResults'))
 const LazyCategory= lazy(() => import('./ProductPage/Category'))
+const LazySearchResults= lazy(() => import('./ProductPage/SearchRsults'))
 export {
   LazyNotFound404 as NotFound404,
-  LazySearchWithFilter as SearchFilterPage,
-  LazyCategory as CategoryPage
+  LazyProductsResults as ProductsResults,
+  LazyCategory as CategoryPage,
+  LazySearchResults as SearchRsults,
 };
 

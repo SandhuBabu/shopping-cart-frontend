@@ -35,7 +35,13 @@ export const getBudgetFriendlyProducts = () => {
 }
 
 export const getSearchItems = (query, pageNo, signal) => {
-   return openApi.get(`/products/search?${query}&pageNo=${pageNo}`, {signal})
+   return openApi.get(`/products/searchWithFilters?${query}&pageNo=${pageNo}`, { signal })
       .then(res => ({ ...res?.data, error: false }))
+      .catch(err => ({ ...err?.response?.data, error: true }))
+}
+
+export const getSearchResults = (term, pageNo, signal) => {
+   return openApi.get(`/products/search/${term}?pageNo=${pageNo}`, {signal})
+      .then(res => ({ ...res.data, error: false }))
       .catch(err => ({ ...err?.response?.data, error: true }))
 }

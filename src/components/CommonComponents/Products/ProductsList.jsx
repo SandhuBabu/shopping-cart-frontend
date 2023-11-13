@@ -10,6 +10,7 @@ const ProductsList = () => {
     const navigate = useNavigate();
     const content = useSelector(store => store.products.content)
 
+
     const handleNavigate = (id) => {
         if (imageLoad && id) {
             navigate(`/product/${id}`)

@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react'
+import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import MainLayout from '../components/Layout/MainLayout'
 import {
@@ -6,10 +6,10 @@ import {
     HomePage,
     NotFound404,
     ProductPage,
-    SearchFilterPage
+    ProductsResults,
+    SearchRsults
 } from '../pages'
 import { Signup } from '../components'
-import { ProductPageSkeleton, ProductsSkeleton } from '../components/skeletons'
 
 
 const UserRouter = () => {
@@ -18,11 +18,7 @@ const UserRouter = () => {
             <Route path='/' element={<MainLayout />}>
                 <Route
                     index
-                    element={
-                        <Suspense fallback={<>User Home Loading</>}>
-                            <HomePage />
-                        </Suspense>
-                    }
+                    element={<HomePage />}
                 />
                 <Route
                     path='cart'
@@ -34,33 +30,23 @@ const UserRouter = () => {
                 />
                 <Route
                     path='/product/:id'
-                    element={
-                        <Suspense fallback={<ProductPageSkeleton />}>
-                            <ProductPage />
-                        </Suspense>
-                    }
+                    element={<ProductPage />}
                 />
                 <Route
                     path='/products'
-                    element={
-                        <Suspense fallback={<ProductsSkeleton />}>
-                            <SearchFilterPage />
-                        </Suspense>
-                    }
+                    element={<ProductsResults />}
                 />
                 <Route
                     path='/category/:cat'
-                    element={
-                        <Suspense fallback={<ProductsSkeleton />}>
-                            <CategoryPage />
-                        </Suspense>
-                    }
+                    element={<CategoryPage />}
+                />
+                <Route
+                    path='/search/:term'
+                    element={<SearchRsults />}
                 />
                 <Route
                     path='/*'
-                    element={
-                        <NotFound404 />
-                    }
+                    element={<NotFound404 />}
                 />
             </Route>
         </Routes>

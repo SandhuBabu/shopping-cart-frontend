@@ -36,6 +36,7 @@ const LazyModal = lazy(() => import('./CommonComponents/Modal/Modal'))
 const LazyAlert = lazy(() => import('./CommonComponents/Alert/Alert'))
 const LazyProductsList = lazy(()=>import('./CommonComponents/Products/ProductsList'))
 const LazyProductsFilter = lazy(()=>import('./CommonComponents/Products/ProductsFilter'))
+const LazySort = lazy(()=>import('./CommonComponents/Products/Sort'))
 const LazySomethingwrong = lazy(()=>import('./CommonComponents/SomethingWrong/SomethingWrong'))
 
 // export commons
@@ -54,7 +55,8 @@ export {
   LazyAlert as Alert,
   LazyProductsFilter as ProductsFilter,
   LazyProductsList as ProductsList,
-  LazySomethingwrong as SomethingWrong
+  LazySort as Sort,
+  LazySomethingwrong as SomethingWrong,
 };
 
 export {Input} from './CommonComponents/FormElements/Input'

@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { scrollToTop } from '../../utils/utils';
 import { getSearchItems } from '../../services/productService';
-import { addProducts, setProductsEmpty } from '../../features/productsSlice';
-import { ProductsList, Select } from '../../components';
+import { addProducts, setProductsEmpty, updateContent } from '../../features/productsSlice';
+import { ProductsList, Select, Sort } from '../../components';
 import NotFound404 from '../404/NotFound404'
 
 const sortOptions = [
@@ -24,12 +24,9 @@ const Category = () => {
 
     const controller = new AbortController();
     const signal = controller.signal;
-    const [sort, sortReducer] = useReducer(content);
 
 
     useEffect(() => {
-        console.log("SORT NOT PROVIDED");
-
         scrollToTop()
         handleGetProducts(pageNo.current);
 
@@ -49,29 +46,31 @@ const Category = () => {
         setLoading(false)
     }, [])
 
-    const handleSort = ({target}) => {
-        console.log(target.value);
+    const handleSort = ({ target }) => {
+        const type = target.value.replaceAll(" ", '');
+        switch (type) {
+            case 'PriceLowtoHigh':
+                const lowToHigh = content.slice().sort((a, b) => a.price - b.price)
+                dispatch(updateContent(lowToHigh))
+                break;
+            case 'PriceHightoHigh':
+                const highToLow = content.slice().sort((a, b) => b.price - a.price)
+                dispatch(updateContent(highToLow))
+                break;
+            case 'NoSort':
+                const noSort = content.slice().sort((a, b) => a.id - b.id)
+                dispatch(updateContent(noSort))
+                break;
+        }
     }
 
-    if (!loading && content.length < 1) {
+    if (!loading && content.length === 0) {
         return <NotFound404 message={<>No products available for the category <strong className='capitalize'>{cat}</strong></>} />
     }
 
-
     return (
-        <div className='px-5'>
-            <div className='w-[15em] my-5'>
-                <Select
-                    onChange={handleSort}
-                    defaultValue="No Sort"
-                    options={sortOptions}
-                    title="Sort By"
-                    name="price"
-                />
-            </div>
-            {
-                !loading
-            }
+        <div className='flex px-5'>
+            <Sort handleSort={handleSort} />
 
             {content.length > 0 && <ProductsList />}
 
