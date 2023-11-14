@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useSelector } from 'react-redux'
-import { BreadCrumb, ProductPageImage } from '../../components'
+import { useDispatch, useSelector } from 'react-redux'
+import { BreadCrumb, ProductPageImage, Toast } from '../../components'
 import { scrollToTop } from '../../utils/utils'
 import { getProductById } from '../../services/productService'
 import { NotFound404 } from '..'
+import { addToCart, findProductFromCart, removeFromCart } from '../../services/cartService'
+import { updateCartCount } from '../../features/userSlice'
 
 const breadCrumbsOptions = [
     { title: "Dashboard", path: "/" },
@@ -17,11 +19,15 @@ const ProductPage = () => {
     const { id } = useParams();
     const user = useSelector(store => store.user)
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const controller = new AbortController();
     const signal = controller.signal;
 
     const [product, setProduct] = useState({});
     const [error, setError] = useState(false)
+    const [cartLoading, setCartLoading] = useState(false)
+    const [toast, setToast] = useState({ alive: false, text: '' })
+
 
     scrollToTop()
 
@@ -44,9 +50,47 @@ const ProductPage = () => {
             setError(true)
             return
         }
-        setProduct(data);
+        const inCart = await findProductFromCart(id);
+        setProduct({ ...data, inCart });
     }
 
+    const handleAddToCart = useCallback(async () => {
+        setCartLoading(true)
+        const { error, ...data } = await addToCart(id);
+        if (!error) {
+            dispatch(updateCartCount({type: "increment"}))
+            setProduct(prev => ({ ...prev, inCart: true }))
+            setToast({ alive: true, text: data?.message })
+            setTimeout(() => {
+                setToast({ alive: false, text: '' })
+            }, 3000)
+        } else {
+            setToast({ alive: true, text: "Failed to add product to cart" })
+            setTimeout(() => {
+                setToast({ alive: false, text: '' })
+            }, 3000)
+        }
+        setCartLoading(false)
+    }, [])
+
+    const handleRemoveFromCart = useCallback(async () => {
+        setCartLoading(true)
+        const { error, ...res } = await removeFromCart(id);
+        if (!error) {
+            dispatch(updateCartCount({type: "drecrement"}))
+            setProduct(prev => ({ ...prev, inCart: false }))
+            setToast({ alive: true, text: res?.message })
+            setTimeout(() => {
+                setToast({ alive: false, text: '' })
+            }, 3000)
+        } else {
+            setToast({ alive: true, text: "Failed to remove product to cart" })
+            setTimeout(() => {
+                setToast({ alive: false, text: '' })
+            }, 3000)
+        }
+        setCartLoading(false)
+    }, [])
 
     if (error) {
         return <NotFound404 />
@@ -58,10 +102,23 @@ const ProductPage = () => {
                 user?.role === "ADMIN" &&
                 <BreadCrumb breadCrumbsOptions={breadCrumbsOptions} />
             }
+            {
+                toast?.alive &&
+                <Toast variant="green">
+                    {toast.text}
+                </Toast>
+            }
 
             <section className='flex md:flex-row min-h-screen flex-col px-4'>
 
-                <ProductPageImage src={product?.imageUrl} />
+                <ProductPageImage
+                    src={product?.imageUrl}
+                    handleAddToCart={handleAddToCart}
+                    handleRemoveFromCart={handleRemoveFromCart}
+                    inCart={product?.inCart}
+                    cartLoading={cartLoading}
+                    buyDisable={product.stockAvailable<1}
+                />
 
                 <div className="divider lg:divider-horizontal sm:opacity-0"></div>
 
@@ -86,7 +143,7 @@ const ProductPage = () => {
                         <span>Price : &nbsp;</span>
                         <span>{product?.price}</span>
                     </p>
-                    <p className={`flex items-center gap-2 ${product.stockAvailable>25?'text-green-400':'text-red-400'} leading-10`}>
+                    <p className={`flex items-center gap-2 ${product.stockAvailable > 25 ? 'text-green-400' : 'text-red-400'} leading-10`}>
                         <span className="material-symbols-outlined">production_quantity_limits</span>
                         <span>In Stock : &nbsp;</span>
                         {

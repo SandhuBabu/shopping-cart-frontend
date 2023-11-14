@@ -34,6 +34,7 @@ const LazyPagination = lazy(() => import('./CommonComponents/Pagination/Paginati
 const LazyBreadCrumb = lazy(() => import('./CommonComponents/BreadCrumbs/BreadCrumbs'))
 const LazyModal = lazy(() => import('./CommonComponents/Modal/Modal'))
 const LazyAlert = lazy(() => import('./CommonComponents/Alert/Alert'))
+const LazyToast = lazy(() => import('./CommonComponents/Alert/Toast'))
 const LazyProductsList = lazy(()=>import('./CommonComponents/Products/ProductsList'))
 const LazyProductsFilter = lazy(()=>import('./CommonComponents/Products/ProductsFilter'))
 const LazySort = lazy(()=>import('./CommonComponents/Products/Sort'))
@@ -53,6 +54,7 @@ export {
   LazyBreadCrumb as BreadCrumb,
   LazyModal as Modal,
   LazyAlert as Alert,
+  LazyToast as Toast,
   LazyProductsFilter as ProductsFilter,
   LazyProductsList as ProductsList,
   LazySort as Sort,

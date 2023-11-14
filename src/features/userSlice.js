@@ -6,6 +6,7 @@ const INITIAL_STATE = {
     email: "",
     role: "",
     imageUrl: "",
+    cartCount: 0,
 }
 
 // const INITIAL_STATE = {
@@ -26,17 +27,26 @@ export const userSlice = createSlice({
             state.username = action?.payload?.username;
             state.email = action?.payload?.email;
             state.role = action?.payload?.role;
+            state.cartCount = action?.payload?.cartCount || 0
         },
         handleUserLogout: (state) => {
             state.id = null;
             state.username = null;
             state.email = null;
             state.role = null
+            state.cartCount = 0
             localStorage.clear();
+        },
+        updateCartCount: (state, action) => {
+            if (action.payload.type === "increment") {
+                state.cartCount = state.cartCount + 1
+            } else {
+                state.cartCount = state.cartCount - 1
+            }
         }
     }
 })
 
-export const { setUser, handleUserLogout } = userSlice.actions
+export const { setUser, handleUserLogout, updateCartCount } = userSlice.actions
 
 export default userSlice.reducer

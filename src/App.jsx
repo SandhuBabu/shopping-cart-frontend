@@ -5,12 +5,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setUser } from './features/userSlice'
 import { refresh } from './services/authService'
 import { getUser } from './services/userService'
+import { getCartCount } from './services/cartService'
 
 function App() {
 
   const dispatch = useDispatch();
   const user = useSelector(store => store.user)
-  console.log(user);
 
   useEffect(() => {
     console.log("APP_MOUNTED");
@@ -27,8 +27,9 @@ function App() {
   const handleGetUser = async () => {
     try {
       const user = await getUser();
+      const cartCount = await getCartCount();
       if (user) {
-        dispatch(setUser(user));
+        dispatch(setUser({...user, cartCount}));
       }
     } catch (err) {
       handleRefresh();
