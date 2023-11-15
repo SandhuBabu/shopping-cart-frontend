@@ -1,7 +1,16 @@
 import { userApi } from '../config/api'
 
-export const addToCart = (productId) => {
 
+export const getCartItems = (signal) => {
+    return userApi.get('/cart', { signal })
+        .then(res => {
+            return { error: false, data: res?.data }
+        }).catch(err => {
+            return { error: true, data: res?.response?.data }
+        })
+}
+
+export const addToCart = (productId) => {
     return userApi.post(`/cart/add/${productId}`)
         .then(res => {
             return { ...res?.data, error: false }
@@ -19,6 +28,11 @@ export const removeFromCart = (productId) => {
         .catch(err => {
             return { ...err?.response?.data, error: true }
         })
+}
+
+export const removeAll = () => {
+    return userApi.delete('/cart/all')
+        .then(() => true).catch(() => false)
 }
 
 export const findProductFromCart = productId => {

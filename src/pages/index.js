@@ -3,10 +3,12 @@ import { lazy } from 'react';
 // user pages
 const LazyHomePage = lazy(() => import('./UserPages/HomePage/HomePage'));
 const LazyProductPage = lazy(() => import('./ProductPage/ProductPage'));
+const LazyCartPage = lazy(() => import('./UserPages/CartPage/CartPage'));
 
 export {
   LazyHomePage as HomePage,
   LazyProductPage as ProductPage,
+  LazyCartPage as CartPage,
 };
 
 
@@ -28,8 +30,8 @@ export {
 //  common pages
 const LazyNotFound404 = lazy(() => import('./404/NotFound404'));
 const LazyProductsResults = lazy(() => import('./ProductPage/ProductsResults'))
-const LazyCategory= lazy(() => import('./ProductPage/Category'))
-const LazySearchResults= lazy(() => import('./ProductPage/SearchRsults'))
+const LazyCategory = lazy(() => import('./ProductPage/Category'))
+const LazySearchResults = lazy(() => import('./ProductPage/SearchRsults'))
 export {
   LazyNotFound404 as NotFound404,
   LazyProductsResults as ProductsResults,

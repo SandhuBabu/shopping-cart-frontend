@@ -2,6 +2,7 @@ import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import MainLayout from '../components/Layout/MainLayout'
 import {
+    CartPage,
     CategoryPage,
     HomePage,
     NotFound404,
@@ -22,7 +23,7 @@ const UserRouter = () => {
                 />
                 <Route
                     path='cart'
-                    element={<p>Cart</p>}
+                    element={<CartPage />}
                 />
                 <Route
                     path='signup'

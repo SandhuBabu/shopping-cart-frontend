@@ -2,9 +2,11 @@ import { lazy } from 'react';
 
 // user components
 const LazyUserHeader = lazy(() => import('./UserComponents/Header/Header'));
+const LazyCartCard = lazy(() => import('./UserComponents/Cart/CartCard'));
 
 export {
     LazyUserHeader as UserHeader,
+    LazyCartCard as CartCard,
 }
 
 // admin components
