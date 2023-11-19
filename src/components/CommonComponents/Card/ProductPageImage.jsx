@@ -26,8 +26,8 @@ const ProductPageImage = ({
 
 
     return (
-        // <div className='flex bg-neutral-300 select-none flex-col items-center my-7 justify-center relative md:sticky top-[6em]  md:w-[50%] lg:w-40% max-h-[80vh] py-4 rounded-xl'>
-        <div className='flex  select-none flex-col items-center my-7 justify-center relative md:sticky top-[6em]  md:w-[50%] lg:w-40% max-h-[80vh] py-4 rounded-xl'>
+        <div className='flex select-none flex-col items-center my-7 justify-center relative md:sticky top-[6em]  md:w-[50%] lg:w-40% max-h-[80vh] py-4 rounded-xl'>
+        {/* <div className='flex  select-none flex-col items-center my-7 justify-center relative md:sticky top-[6em]  md:w-[50%] lg:w-40% max-h-[80vh] py-4 rounded-xl'> */}
             <img
                 loading='lazy'
                 onLoad={() => setImageLoad(true)}

@@ -4,11 +4,17 @@ import { lazy } from 'react';
 const LazyHomePage = lazy(() => import('./UserPages/HomePage/HomePage'));
 const LazyProductPage = lazy(() => import('./ProductPage/ProductPage'));
 const LazyCartPage = lazy(() => import('./UserPages/CartPage/CartPage'));
+const LazyOrdersPage = lazy(() => import('./UserPages/Orders/OrdersPage'));
+const LazyOrderSummaryPage = lazy(() => import('./UserPages/Orders/OrderSummaryPage'));
+const LazyProfilePage = lazy(() => import('./UserPages/Profile/ProfilePage'));
 
 export {
   LazyHomePage as HomePage,
   LazyProductPage as ProductPage,
   LazyCartPage as CartPage,
+  LazyOrdersPage as OrdersPage,
+  LazyOrderSummaryPage as OrderSummaryPagePage,
+  LazyProfilePage as ProfilePage,
 };
 
 

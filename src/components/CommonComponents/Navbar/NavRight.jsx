@@ -70,18 +70,21 @@ const NavRight = () => {
                     </div>
                 </label>
                 <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
-                    <li>
-                        <Link to="/profile" className='h-[2em]'>Profile</Link>
+                    <li className='h-[3em] mt-2'>
+                        <Link to="/profile" className='flex w-full h-full items-center'>Profile</Link>
                     </li>
-                    <li>
-                        <Link to="/settings" className='h-8'>Settings</Link>
+                    <li className='h-[3em] mt-2'>
+                        <Link to="/orders" className='flex w-full h-[3em] items-center'>Orders</Link>
                     </li>
-                    <li>
+                    <li className='h-[3em] mt-2'>
                         <ThemeToggle />
                     </li>
                     <Button
-                        classNames="btn btn-outline btn-sm btn-primary h-[2em] w-[7em] ml-2 mt-3"
+                        classNames="flex items-center justify-start gap-1 pl-3 py-3 rounded hover:bg-base-200"
                         onClick={handleLogout}>
+                        <span className="material-symbols-outlined">
+                            power_settings_new
+                        </span>
                         Logout
                     </Button>
                 </ul>

@@ -14,3 +14,14 @@ export const getUser = async () => {
     throw err.response
   }
 }
+
+
+export const updateUser = (data) => {
+  return userApi.post("/update", data, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    }
+  })
+    .then(res => ({ message: res?.data, error: false }))
+    .catch(err => ({message: err?.response?.data, error: true}))
+}

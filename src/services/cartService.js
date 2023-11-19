@@ -52,3 +52,13 @@ export const getCartCount = () => {
         })
         .catch(err => 0)
 }
+
+export const checout = (signal) => {
+    return userApi.post("/cart/checkout", { signal })
+        .then(res => {
+            console.log(res);
+        })
+        .catch(err => {
+            console.log(err);
+        })
+}

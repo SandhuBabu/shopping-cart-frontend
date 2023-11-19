@@ -32,6 +32,7 @@ const Signup = () => {
             fullName: e.target.fullName.value,
             email: e.target.email.value,
             password: e.target.password.value,
+            mobile: e.target.mobile.value
         }
         try {
             const res = await signup(data);
@@ -78,6 +79,19 @@ const Signup = () => {
                         type="email"
                         name='email'
                         placeholder="Enter email address"
+                        className="input input-primary w-full"
+                        required
+                    />
+                </div>
+
+                <div className="form-control w-full mt-4">
+                    <label className="label">
+                        <span className="label-text">Phone Number</span>
+                    </label>
+                    <input
+                        type="number"
+                        name='mobile'
+                        placeholder="Enter phone number"
                         className="input input-primary w-full"
                         required
                     />

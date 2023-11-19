@@ -24,3 +24,13 @@ export const categories = [
     { title: "Sunglasses", link: "/category/sunglasses" },
     { title: "Watches", link: "/category/watches" },
 ]
+
+
+export const getOrderStatusTextColor = status => {
+    switch (status) {
+        case 'Delivered': return 'text-green-500';
+        case 'Cancelled': return 'text-error';
+        case 'Shipped': return 'text-warning';
+        default: return 'text-green-500';
+    }
+}

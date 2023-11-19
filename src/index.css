@@ -19,7 +19,7 @@ body {
 
 .input:focus,
 .select:focus,
-.textarea:focus{
+.textarea:focus {
   outline-offset: 0;
 }
 
@@ -40,4 +40,18 @@ body {
 .filter-scrollbar::-webkit-scrollbar-thumb {
   background-color: rgba(100, 25, 230, 0.564);
   border-radius: 15px;
+}
+
+.cart-link.active label div svg {
+  color: var(--text-primary);
+}
+
+input[type=number] {
+  appearance: none;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }

@@ -6,9 +6,12 @@ import {
     CategoryPage,
     HomePage,
     NotFound404,
+    OrderSummaryPagePage,
+    OrdersPage,
     ProductPage,
     ProductsResults,
-    SearchRsults
+    ProfilePage,
+    SearchRsults,
 } from '../pages'
 import { Signup } from '../components'
 
@@ -45,6 +48,15 @@ const UserRouter = () => {
                     path='/search/:term'
                     element={<SearchRsults />}
                 />
+                <Route path='/orders'>
+                    <Route index element={<OrdersPage />} />
+                    <Route path=':id' element={<OrderSummaryPagePage />} />
+                </Route>
+                <Route
+                    path='/profile'
+                    element={<ProfilePage />}
+                />
+
                 <Route
                     path='/*'
                     element={<NotFound404 />}

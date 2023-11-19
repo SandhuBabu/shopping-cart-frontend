@@ -1,15 +1,20 @@
-import React, { useEffect, useMemo, useState } from 'react'
-import { CartCard } from '../../../components'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { Alert, CartCard, Modal } from '../../../components'
 import { scrollToTop } from '../../../utils/utils';
-import { getCartItems, removeAll } from '../../../services/cartService';
+import { checout, getCartItems, removeAll, removeFromCart } from '../../../services/cartService';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { updateCartCount } from '../../../features/userSlice';
 
 
 const CartPage = () => {
 
     const controller = new AbortController();
+    const dispatch = useDispatch();
     const [cart, setCart] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [modalOpen, setModalOpen] = useState(false)
+    const [alertOpen, setAlertOpen] = useState({ text: 'dsdsd', open: false })
 
     useEffect(() => {
         setLoading(true)
@@ -35,30 +40,64 @@ const CartPage = () => {
         setLoading(false)
     }
 
-    const handleRemoveAll = async () => {
+    const handleRemoveAll = useCallback(async () => {
         const res = await removeAll();
         if (res) {
             setCart([])
+            dispatch(updateCartCount({ type: "empty" }))
         }
-    }
+    }, [])
 
-    if(loading){
+    const removeOneItem = useCallback(async (productId) => {
+        const { error, ...data } = await removeFromCart(productId);
+        if (!error) {
+            let items = cart.filter(i => i.id !== productId)
+            setCart(items)
+            dispatch(updateCartCount({type:"decrement"}))
+        }
+        setAlertOpen({ text: data?.message, open: true })
+    }, [cart])
+
+    const handleCheckout = useCallback(async () => {
+        const res = await checout(controller.signal);
+    }, [])
+
+    if (loading) {
         return <>Loading...</>
     }
 
     return (
         cart.length > 0 ?
             <>
-                <button
-                    className='btn btn-wide my-8'
-                    onClick={handleRemoveAll}
-                >Delete Cart</button>
 
-                <div className='flex flex-col md:flex-row gap-3'>
+                {
+                    alertOpen.open &&
+                    <Alert
+                        text={alertOpen.text}
+                        close={() => setAlertOpen({ text: '', open: false })}
+                        type="bg-info rounded-xl"
+                    />
+                }
+
+                <button
+                    className='btn btn-error btn-outline btn-wide my-8'
+                    onClick={() => setModalOpen(true)}
+                >
+                    Delete Cart
+                    <span className="material-symbols-outlined">
+                        delete
+                    </span>
+                </button>
+
+                <div className='flex flex-col-reverse md:flex-row gap-3'>
                     <div className='flex-1 p-[1em] min-h-[100vh]'>
                         {
                             cart.map((item, k) => (
-                                <CartCard product={item} key={k} />
+                                <CartCard
+                                    key={k}
+                                    product={item}
+                                    remove={removeOneItem}
+                                />
                             ))
                         }
 
@@ -66,6 +105,7 @@ const CartPage = () => {
                         {/* <div> */}
                         <button
                             className='btn btn-primary btn-wide float-right mt-8 mr-3'
+                            onClick={handleCheckout}
                         >
                             Checkout
                         </button>
@@ -91,6 +131,18 @@ const CartPage = () => {
                         </p>
                     </div>
                 </div>
+
+                {
+                    modalOpen &&
+                    <Modal
+                        isOpen={modalOpen}
+                        cancel={() => setModalOpen(false)}
+                        action={handleRemoveAll}
+                        actionText="Delete all products from cart?"
+                        actionLabel="Yes, Delete"
+                        actionLabelVariant="btn bg-red-500 hover:bg-red-600 text-white"
+                    />
+                }
             </>
             :
             <div className='grid place-items-center h-[80vh]'>

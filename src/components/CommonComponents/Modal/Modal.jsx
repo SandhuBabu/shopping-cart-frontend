@@ -23,7 +23,10 @@ const Modal = ({ isOpen, cancel, action, actionText, actionLabel, actionLabelVar
                 <h1 className='text-xl my-4'>{actionText}</h1>
 
                 <div className='float-right my-3'>
-                    <button onClick={cancel} className='mr-6'>Cancel</button>
+                    <button onClick={()=>{
+                        document.querySelector('body').style.overflowY="auto";
+                        cancel();
+                    }} className='mr-6'>Cancel</button>
                     <button
                         className={actionLabelVariant??`text-base-content`}
                         onClick={action}
