@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { getOrderStatusTextColor } from '../../../utils/utils'
+import { copyText, getOrderStatusTextColor } from '../../../utils/utils'
 
 const order = {
     id: 1,
@@ -15,6 +15,7 @@ const order = {
 const OrderSummaryPage = () => {
 
     const { id } = useParams();
+    const [copy, setCopy] = useState(true)
 
     return (
         <div className='flex flex-col lg:flex-row gap-8 px-4 py-5'>
@@ -28,9 +29,28 @@ const OrderSummaryPage = () => {
                     <h1 className='text-lg font-bold flex'>
                         <span>{order?.title}</span>
                     </h1>
-                    <p className='w-[10em] flex gap-[1em] mt-2'>
-                        <span>Ordeer ID:</span>
+                    <p className='w-[10em] flex items-center gap-[1em] mt-2'>
+                        <span>Order ID:</span>
                         <span>{order?.id}</span>
+                        {
+                            copy ?
+                                <button
+                                    onClick={() => {
+                                        copyText("Order ID : " + order?.id)
+                                        setCopy(false)
+                                        setTimeout(() => {
+                                            setCopy(true)
+                                        }, 2000)
+                                    }}
+                                    className="material-symbols-outlined text-[1em] btn btn-sm btn-circle"
+                                >
+                                    content_copy
+                                </button>
+                                :
+                                <span className="material-symbols-outlined text-green-400 text-[1em] btn btn-sm btn-circle">
+                                    done_all
+                                </span>
+                        }
                     </p>
                     <p className='w-[10em] flex gap-[1em] mt-2'>
                         <span>Price:</span>
@@ -66,7 +86,7 @@ const OrderSummaryPage = () => {
                     {/* state */}
                     <span>Kerala</span>
 
-                    {/* pincode */}
+                    {/* zip */}
                     <span>- 686515</span>
                 </p>
                 <p className=' mt-1'>
@@ -76,7 +96,7 @@ const OrderSummaryPage = () => {
             </div>
 
             {
-                order?.status==="Delivered" &&
+                order?.status === "Delivered" &&
                 <div className='flex-1'>
                     <h1 className='text-lg font-bold'>Invoice</h1>
 

@@ -15,7 +15,6 @@ export const getUser = async () => {
   }
 }
 
-
 export const updateUser = (data) => {
   return userApi.post("/update", data, {
     headers: {
@@ -23,5 +22,35 @@ export const updateUser = (data) => {
     }
   })
     .then(res => ({ message: res?.data, error: false }))
-    .catch(err => ({message: err?.response?.data, error: true}))
+    .catch(err => ({ message: err?.response?.data, error: true }))
+}
+
+export const addAddress = (data) => {
+  return userApi.post("/addAddress", data, {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+    .then(res => {
+      console.log(res);
+    })
+    .catch(err => {
+      console.log(err);
+    })
+}
+
+export const getAddress = (signal) => {
+  return userApi.get("/address", {signal})
+    .then(res => {
+      return {
+        res: res?.data,
+        error: false
+      }
+    })
+    .catch(err => {
+      return {
+        res: err?.response?.data,
+        error: true
+      }
+    })
 }

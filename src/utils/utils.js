@@ -34,3 +34,18 @@ export const getOrderStatusTextColor = status => {
         default: return 'text-green-500';
     }
 }
+
+export const copyText = (text) => {
+    navigator.clipboard.writeText(text)
+}
+
+
+export const share = (shareData) => {
+    navigator.share(shareData)
+        .then(res => {
+            console.log(res);
+        })
+        .catch(err => {
+            console.log(err);
+        })
+}

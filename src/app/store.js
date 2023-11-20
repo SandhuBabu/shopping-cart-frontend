@@ -5,6 +5,6 @@ import productsReducer from "../features/productsSlice";
 export default configureStore({
     reducer: {
         user: userReducer,
-        products: productsReducer
+        products: productsReducer,
     }
 })

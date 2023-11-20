@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setUser } from '../../../features/userSlice'
 import { updateUser } from '../../../services/userService';
 import { Toast } from '../../../components'
+import { Link } from 'react-router-dom';
 
 const ProfilePage = () => {
 
@@ -94,6 +95,12 @@ const ProfilePage = () => {
                         {edit ? "Cancel" : "Edit"}
                     </button>
                 </div>
+
+                <Link
+                    to="/profile/address"
+                    className='btn-link font-medium mt-4 block'
+                >
+                    Manage Address</Link>
 
                 <form onSubmit={handleSubmit} className='w-full mt-[3em] md:w-[40%]'>
                     <div className="form-control w-full mt-3">

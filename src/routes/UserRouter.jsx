@@ -2,6 +2,7 @@ import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import MainLayout from '../components/Layout/MainLayout'
 import {
+    AddressPage,
     CartPage,
     CategoryPage,
     HomePage,
@@ -52,11 +53,10 @@ const UserRouter = () => {
                     <Route index element={<OrdersPage />} />
                     <Route path=':id' element={<OrderSummaryPagePage />} />
                 </Route>
-                <Route
-                    path='/profile'
-                    element={<ProfilePage />}
-                />
-
+                <Route path='/profile'>
+                    <Route index element={<ProfilePage />} />
+                    <Route path='address' element={<AddressPage />} />
+                </Route>
                 <Route
                     path='/*'
                     element={<NotFound404 />}

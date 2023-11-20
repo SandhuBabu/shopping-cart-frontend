@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { BreadCrumb, ProductPageImage, Toast } from '../../components'
-import { scrollToTop } from '../../utils/utils'
+import { scrollToTop, share } from '../../utils/utils'
 import { getProductById } from '../../services/productService'
 import { NotFound404 } from '..'
 import { addToCart, findProductFromCart, removeFromCart } from '../../services/cartService'
@@ -58,7 +58,7 @@ const ProductPage = () => {
         setCartLoading(true)
         const { error, ...data } = await addToCart(id);
         if (!error) {
-            dispatch(updateCartCount({type: "increment"}))
+            dispatch(updateCartCount({ type: "increment" }))
             setProduct(prev => ({ ...prev, inCart: true }))
             setToast({ alive: true, text: data?.message })
             setTimeout(() => {
@@ -77,7 +77,7 @@ const ProductPage = () => {
         setCartLoading(true)
         const { error, ...res } = await removeFromCart(id);
         if (!error) {
-            dispatch(updateCartCount({type: "drecrement"}))
+            dispatch(updateCartCount({ type: "drecrement" }))
             setProduct(prev => ({ ...prev, inCart: false }))
             setToast({ alive: true, text: res?.message })
             setTimeout(() => {
@@ -117,7 +117,7 @@ const ProductPage = () => {
                     handleRemoveFromCart={handleRemoveFromCart}
                     inCart={product?.inCart}
                     cartLoading={cartLoading}
-                    buyDisable={product.stockAvailable<1}
+                    buyDisable={product.stockAvailable < 1}
                 />
 
                 <div className="divider lg:divider-horizontal sm:opacity-0"></div>
@@ -164,6 +164,17 @@ const ProductPage = () => {
                         <span>Delivery Time : &nbsp;</span>
                         <span>5-7 Days</span>
                     </p>
+                    <button
+                        onClick={() => share({
+                            title: product?.title,
+                            text: product?.category,
+                            url: "http://localhost:3000/product/" + product?.id
+                        })}
+                        className='flex btn btn-outline btn-primary items-center w-[max-content] rounded-full mt-4'
+                    >
+                        <span className="material-symbols-outlined text-[1.5em]">share</span>
+                        <span>Share</span>
+                    </button>
 
                     <p className='mt-7'>{product?.description}</p>
 

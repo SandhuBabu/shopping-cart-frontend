@@ -27,23 +27,20 @@ const ProductPageImage = ({
 
     return (
         <div className='flex select-none flex-col items-center my-7 justify-center relative md:sticky top-[6em]  md:w-[50%] lg:w-40% max-h-[80vh] py-4 rounded-xl'>
-        {/* <div className='flex  select-none flex-col items-center my-7 justify-center relative md:sticky top-[6em]  md:w-[50%] lg:w-40% max-h-[80vh] py-4 rounded-xl'> */}
             <img
                 loading='lazy'
                 onLoad={() => setImageLoad(true)}
                 draggable={false}
-                className={`max-h-[30em] ${imageLoad ? 'opacity-[1]' : 'opacity-0 h-0'} max-w-[80%] mix-blend-multiply`}
+                className={`max-h-[30em] ${imageLoad ? 'opacity-[1]' : 'opacity-0 h-0'} max-w-[80%]`}
                 src={src}
             />
 
             {!imageLoad && <Skeleton width='30em' height='30em' />}
 
             {
-                user?.role !== "ADMIN" && imageLoad &&
+                user?.role !== "ADMIN" && user?.username && imageLoad &&
                 <div className='flex gap-3 mt-5 w-[80%]'>
-                    {/* TODO 
-                     Add Loading button on cart operations
-                    */}
+
                     {
                         inCart ?
                             <button
