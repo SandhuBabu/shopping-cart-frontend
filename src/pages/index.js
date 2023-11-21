@@ -8,6 +8,7 @@ const LazyOrdersPage = lazy(() => import('./UserPages/Orders/OrdersPage'));
 const LazyOrderSummaryPage = lazy(() => import('./UserPages/Orders/OrderSummaryPage'));
 const LazyProfilePage = lazy(() => import('./UserPages/Profile/ProfilePage'));
 const LazyAddressPage = lazy(() => import('./UserPages/Profile/AddressPage'));
+const LazyOrderProduct = lazy(() => import('./UserPages/Orders/OrderProduct'));
 
 export {
   LazyHomePage as HomePage,
@@ -17,6 +18,7 @@ export {
   LazyOrderSummaryPage as OrderSummaryPagePage,
   LazyProfilePage as ProfilePage,
   LazyAddressPage as AddressPage,
+  LazyOrderProduct as OrderProduct,
 };
 
 

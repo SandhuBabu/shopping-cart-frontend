@@ -31,20 +31,23 @@ export const addAddress = (data) => {
       "Content-Type": "application/json"
     }
   })
-    .then(res => {
-      console.log(res);
-    })
-    .catch(err => {
-      console.log(err);
-    })
+    .then(res => ({
+      res: res?.data,
+      error:false
+    }))
+    .catch(err => ({
+      res: err?.response?.data,
+      error:true
+    }))
 }
 
 export const getAddress = (signal) => {
   return userApi.get("/address", {signal})
     .then(res => {
+      const error = res?.data?.id === null;
       return {
         res: res?.data,
-        error: false
+        error
       }
     })
     .catch(err => {

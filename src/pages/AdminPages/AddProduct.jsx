@@ -32,8 +32,8 @@ const AddProduct = () => {
         category: '',
         gender: 'unisex',
         image: '',
-        price: 0,
-        stockAvailable: 0,
+        price: '',
+        stockAvailable: '',
         description: ''
     })
 

@@ -18,7 +18,6 @@ const ProductPage = () => {
 
     const { id } = useParams();
     const user = useSelector(store => store.user)
-    const navigate = useNavigate();
     const dispatch = useDispatch();
     const controller = new AbortController();
     const signal = controller.signal;
@@ -112,12 +111,11 @@ const ProductPage = () => {
             <section className='flex md:flex-row min-h-screen flex-col px-4'>
 
                 <ProductPageImage
-                    src={product?.imageUrl}
+                    product={product}
                     handleAddToCart={handleAddToCart}
                     handleRemoveFromCart={handleRemoveFromCart}
                     inCart={product?.inCart}
                     cartLoading={cartLoading}
-                    buyDisable={product.stockAvailable < 1}
                 />
 
                 <div className="divider lg:divider-horizontal sm:opacity-0"></div>

@@ -11,17 +11,15 @@ const AddressPage = () => {
     const [saving, setSaving] = useState(false)
     const [error, setError] = useState('')
     const [address, setAddress] = useState({
-        id: 4,
+        id: undefined,
         houseName: "",
         locality: "",
         district: "",
         state: "",
-        zip: 1
+        zip: ""
     })
 
-    /**
-     * Add handle add address(handle submit)
-     */
+
 
     useEffect(() => {
         handleGetAddress();
@@ -42,6 +40,14 @@ const AddressPage = () => {
 
         const { res, error } = await addAddress(address);
 
+        setSaving(false)
+        if (!error) {
+            setAddress(res);
+            setEdit(false)
+            return
+        }
+
+        setError(res)
     }
 
     const handleChange = (e) => {

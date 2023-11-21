@@ -168,7 +168,7 @@ const ProductsList = () => {
 
             <section className='w-full min-h-[70vh] flex flex-col justify-center  p-3 md:px-[5em] rounded-lg'>
 
-                <Link to='/addProduct' className='btn btn-primary text-white text-[12px] w-[10em] '>Add Product</Link>
+                <Link to='/addProduct' className='btn btn-primary  w-[10em] '>Add Product</Link>
 
                 {
                     !error &&

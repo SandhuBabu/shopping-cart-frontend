@@ -55,3 +55,17 @@ input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+.select.select-primary {
+  border: 1px solid theme('colors.primary');
+}
+
+.input:focus,
+.select.select-primary:focus {
+  outline: none;
+  border-width: 2px;
+}
+
+textarea:focus {
+  border: none;
+}

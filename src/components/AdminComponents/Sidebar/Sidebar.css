@@ -30,11 +30,12 @@
 .nav-link {
     padding: 10px;
     border-radius: 5px;
-    color: #6419e6;
+    color: theme('colors.primary'); 
 }
 
 .nav-link.active,
 .nav-link.active:hover {
-    background-color: #6419e6;
-    color: #fff;
+    background-color: theme('colors.primary');
+    color: #252424;
+    color: theme('colors.white');
 }

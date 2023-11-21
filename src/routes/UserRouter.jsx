@@ -7,6 +7,7 @@ import {
     CategoryPage,
     HomePage,
     NotFound404,
+    OrderProduct,
     OrderSummaryPagePage,
     OrdersPage,
     ProductPage,
@@ -52,6 +53,7 @@ const UserRouter = () => {
                 <Route path='/orders'>
                     <Route index element={<OrdersPage />} />
                     <Route path=':id' element={<OrderSummaryPagePage />} />
+                    <Route path='confirm/:id' element={<OrderProduct />} />
                 </Route>
                 <Route path='/profile'>
                     <Route index element={<ProfilePage />} />

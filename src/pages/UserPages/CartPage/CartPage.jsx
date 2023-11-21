@@ -80,7 +80,7 @@ const CartPage = () => {
                 }
 
                 <button
-                    className='btn btn-error btn-outline btn-wide my-8'
+                    className='btn btn-error btn-outline btn-wide my-8 ml-8'
                     onClick={() => setModalOpen(true)}
                 >
                     Delete Cart
