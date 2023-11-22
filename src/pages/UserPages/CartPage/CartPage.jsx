@@ -35,7 +35,7 @@ const CartPage = () => {
         const { error, data } = await getCartItems(controller.signal);
 
         if (!error) {
-            setCart(data);
+            setCart(data.reverse());
         }
         setLoading(false)
     }
@@ -45,6 +45,11 @@ const CartPage = () => {
         if (res) {
             setCart([])
             dispatch(updateCartCount({ type: "empty" }))
+
+            setAlertOpen({ text: "Removed all items from cart", open: true })
+            setTimeout(() => {
+                setAlertOpen({ text: "", open: false })
+            }, 3000)
         }
     }, [])
 
@@ -53,9 +58,12 @@ const CartPage = () => {
         if (!error) {
             let items = cart.filter(i => i.id !== productId)
             setCart(items)
-            dispatch(updateCartCount({type:"decrement"}))
+            dispatch(updateCartCount({ type: "decrement" }))
         }
         setAlertOpen({ text: data?.message, open: true })
+        setTimeout(() => {
+            setAlertOpen({ text: "", open: false })
+        }, 3000)
     }, [cart])
 
     const handleCheckout = useCallback(async () => {

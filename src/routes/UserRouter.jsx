@@ -10,6 +10,7 @@ import {
     OrderProduct,
     OrderSummaryPagePage,
     OrdersPage,
+    PrivateLayout,
     ProductPage,
     ProductsResults,
     ProfilePage,
@@ -28,7 +29,11 @@ const UserRouter = () => {
                 />
                 <Route
                     path='cart'
-                    element={<CartPage />}
+                    element={
+                        <PrivateLayout>
+                            <CartPage />
+                        </PrivateLayout>
+                    }
                 />
                 <Route
                     path='signup'
@@ -50,14 +55,29 @@ const UserRouter = () => {
                     path='/search/:term'
                     element={<SearchRsults />}
                 />
-                <Route path='/orders'>
-                    <Route index element={<OrdersPage />} />
-                    <Route path=':id' element={<OrderSummaryPagePage />} />
-                    <Route path='confirm/:id' element={<OrderProduct />} />
+                <Route path='/orders' element={<PrivateLayout />} >
+                    <Route
+                        index
+                        element={<OrdersPage />}
+                    />
+                    <Route
+                        path=':id'
+                        element={<OrderSummaryPagePage />}
+                    />
+                    <Route
+                        path='confirm/:id'
+                        element={<OrderProduct />}
+                    />
                 </Route>
-                <Route path='/profile'>
-                    <Route index element={<ProfilePage />} />
-                    <Route path='address' element={<AddressPage />} />
+                <Route path='/profile' element={<PrivateLayout />}>
+                    <Route
+                        index
+                        element={<ProfilePage />}
+                    />
+                    <Route
+                        path='address'
+                        element={<AddressPage />}
+                    />
                 </Route>
                 <Route
                     path='/*'

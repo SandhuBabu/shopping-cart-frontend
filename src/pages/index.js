@@ -49,3 +49,11 @@ export {
   LazySearchResults as SearchRsults,
 };
 
+
+
+// private Layout
+const Private = lazy(() => import("../components/Layout/Private"))
+
+export {
+  Private as PrivateLayout
+};

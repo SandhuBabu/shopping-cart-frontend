@@ -136,7 +136,7 @@ const ProductPageImage = ({
                                     }}
                                     className='btn-link font-medium my-2 block'
                                 >
-                                    Change Address
+                                    Manage Address
                                 </button>
                                 <p className='text-sm  text-gray-500 my-3 '>Name and phone number is autmatically taken from user data</p>
                             </>

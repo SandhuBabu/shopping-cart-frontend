@@ -38,12 +38,13 @@ body {
 }
 
 .filter-scrollbar::-webkit-scrollbar-thumb {
-  background-color: rgba(100, 25, 230, 0.564);
+  background-color: theme('colors.primary');
   border-radius: 15px;
 }
 
-.cart-link.active label div svg {
-  color: var(--text-primary);
+
+.cart-link.active  {
+  color: theme('colors.primary');
 }
 
 input[type=number] {

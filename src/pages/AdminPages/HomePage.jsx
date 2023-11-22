@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { scrollToTop, setAdminTitle } from '../../utils/utils'
 import { useSelector } from 'react-redux'
+import { AdminHomeOrdersTable, AdminStats } from '../../components'
 
 const HomePage = () => {
 
@@ -17,7 +18,13 @@ const HomePage = () => {
 
   return (
     <div className='min-h-screen'>
-      <h2 className='text-xl'>Welcome {user?.username},</h2>
+      <h2 className='text-lg mb-5'>Welcome {user?.username},</h2>
+
+      <AdminStats />
+      <div>
+        <AdminHomeOrdersTable />
+      </div>
+
     </div>
   )
 }

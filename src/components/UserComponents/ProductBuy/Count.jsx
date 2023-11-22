@@ -1,11 +1,12 @@
 import React from 'react'
 
-const Count = ({ count, handleIncrement, handleDecrement }) => {
+const Count = ({ count, handleIncrement, handleDecrement, max }) => {
     return (
         <div className='my-4'>
             <button
-            onClick={handleDecrement}
-            className='btn btn-secondary btn-square btn-sm'
+                onClick={handleDecrement}
+                className='btn btn-secondary btn-square btn-sm'
+                disabled={count===1}
             >
                 -
             </button>
@@ -15,8 +16,9 @@ const Count = ({ count, handleIncrement, handleDecrement }) => {
                 {count}
             </span>
             <button
-            onClick={handleIncrement}
-            className='btn btn-secondary btn-square btn-sm'
+                onClick={handleIncrement}
+                className='btn btn-secondary btn-square btn-sm'
+                disabled={count === max}
             >
                 +
             </button>
