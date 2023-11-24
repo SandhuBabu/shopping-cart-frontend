@@ -7,6 +7,7 @@ const navLinks = [
     { title: 'Products', icon: 'category', path: '/products' },
     { title: 'Orders', icon: 'package_2', path: '/orders' },
     { title: 'Add', icon: 'add', path: '/addProduct' },
+    { title: 'Manage', icon: 'display_settings', path: '/manage' },
 ]
 
 
@@ -22,7 +23,7 @@ const Sidebar = () => {
                                 <NavLink
                                     to={obj.path}
                                     id={obj.title}
-                                    className='nav-link flex flex-col items-center hover:bg-base-200'
+                                    className='nav-link flex  items-center hover:bg-base-200'
                                 >
                                     <span className="material-symbols-outlined">
                                         {obj.icon}

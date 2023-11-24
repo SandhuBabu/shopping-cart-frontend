@@ -17,10 +17,14 @@
     display: none;
 }
 
+.nav-link {
+    flex-direction: column;
+}
+
 #sidebar:hover .nav-link {
     flex-direction: row;
     column-gap: 1em;
-    padding: .75em;
+
 }
 
 #sidebar:hover .nav-link p {
@@ -30,7 +34,7 @@
 .nav-link {
     padding: 10px;
     border-radius: 5px;
-    color: theme('colors.primary'); 
+    color: theme('colors.primary');
 }
 
 .nav-link.active,
@@ -38,4 +42,23 @@
     background-color: theme('colors.primary');
     color: #252424;
     color: theme('colors.white');
+}
+
+
+@media (min-width:1024px) {
+    #sidebar {
+        width: 15em;
+        height: 100vh;
+        position: fixed;
+        padding: 0 .5em;
+    }
+
+    .nav-link {
+        flex-direction: row;
+        gap: 1em;
+    }
+
+    .nav-link p {
+        font-size: 14px;
+    }
 }

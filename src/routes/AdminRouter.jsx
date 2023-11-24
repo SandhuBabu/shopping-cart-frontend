@@ -7,7 +7,8 @@ import {
     EditProductPage,
     NotFound404,
     ProductPage,
-    AdminProductsList
+    AdminProductsList,
+    AdminAllOrders
 } from '../pages'
 
 
@@ -35,6 +36,12 @@ const AdminRouter = () => {
                     path='/product/:id'
                     element={<ProductPage />}
                 />
+                <Route path='/orders'>
+                    <Route
+                        index
+                        element={<AdminAllOrders />}
+                    />
+                </Route>
                 <Route
                     path='/*'
                     element={<NotFound404 />}

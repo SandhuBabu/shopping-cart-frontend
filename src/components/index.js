@@ -19,13 +19,15 @@ const LazyProductsTable = lazy(() => import('./AdminComponents/DataTable/Product
 const LazyAdminSidebar = lazy(() => import('./AdminComponents/Sidebar/Sidebar'));
 const LazyAdminStats = lazy(() => import('./AdminComponents/Home/Stats'));
 const LazyAdminHomeOrdersTable = lazy(() => import('./AdminComponents/Home/OrdersTable'));
+const LazyAdminHomeChart = lazy(() => import('./AdminComponents/Home/Chart'));
 
 export {
     LazyAdminHeader as AdminHeader,
     LazyProductsTable as ProductsTable,
     LazyAdminSidebar as AdminSidebar,
     LazyAdminStats as AdminStats,
-    LazyAdminHomeOrdersTable as AdminHomeOrdersTable
+    LazyAdminHomeOrdersTable as AdminHomeOrdersTable,
+    LazyAdminHomeChart as AdminHomeChart,
 }
 
 

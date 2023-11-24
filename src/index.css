@@ -70,3 +70,8 @@ input[type="number"]::-webkit-outer-spin-button {
 textarea:focus {
   border: none;
 }
+
+.select.custom-select {
+  border: none;
+  min-height: 2.5em;
+}

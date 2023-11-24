@@ -5,3 +5,9 @@
 .admin-layout-content {
     padding: 1em 2em 4em 2em;
 }
+
+@media (min-width:1024px) {
+    .admin-layout {
+        margin-left: 15em;
+    }
+}

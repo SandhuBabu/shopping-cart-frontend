@@ -1,7 +1,12 @@
 import React, { useEffect } from 'react'
 import { scrollToTop, setAdminTitle } from '../../utils/utils'
 import { useSelector } from 'react-redux'
-import { AdminHomeOrdersTable, AdminStats } from '../../components'
+import {
+  AdminHomeChart,
+  AdminHomeOrdersTable,
+  AdminStats,
+} from '../../components'
+import { Link } from 'react-router-dom'
 
 const HomePage = () => {
 
@@ -18,11 +23,18 @@ const HomePage = () => {
 
   return (
     <div className='min-h-screen'>
-      <h2 className='text-lg mb-5'>Welcome {user?.username},</h2>
+      <h2 className='text-lg mb-4'>Welcome {user?.username},</h2>
 
+      <Link
+        to="/addProduct"
+        className='btn btn-neutral my-4'
+      >Add New Product</Link>
       <AdminStats />
-      <div>
+      <div className='flex flex-col gap-4 xl:flex-row'>
         <AdminHomeOrdersTable />
+        <div className='flex items-center justify-center'>
+          <AdminHomeChart />
+        </div>
       </div>
 
     </div>

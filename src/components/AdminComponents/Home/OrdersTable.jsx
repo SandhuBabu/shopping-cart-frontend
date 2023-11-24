@@ -3,67 +3,81 @@ import { Link } from 'react-router-dom'
 
 const orders = [
     {
-        "id": "1",
-        "title": "Product 1",
-        "customer": "Customer 1"
+        "orderId": "1",
+        "productTitle": "Product A",
+        "date": "2021-01-01",
+        "price": "10"
     },
     {
-        "id": "2",
-        "title": "Product 2",
-        "customer": "Customer 2"
+        "orderId": "2",
+        "productTitle": "Product B",
+        "date": "2021-01-02",
+        "price": "20"
     },
     {
-        "id": "3",
-        "title": "Product 3",
-        "customer": "Customer 3"
+        "orderId": "3",
+        "productTitle": "Product C",
+        "date": "2021-01-03",
+        "price": "30"
     },
     {
-        "id": "4",
-        "title": "Product 4",
-        "customer": "Customer 4"
+        "orderId": "4",
+        "productTitle": "Product D",
+        "date": "2021-01-04",
+        "price": "40"
     },
     {
-        "id": "5",
-        "title": "Product 5",
-        "customer": "Customer 5"
+        "orderId": "5",
+        "productTitle": "Product E",
+        "date": "2021-01-05",
+        "price": "50"
     },
     {
-        "id": "6",
-        "title": "Product 6",
-        "customer": "Customer 6"
+        "orderId": "6",
+        "productTitle": "Product F",
+        "date": "2021-01-06",
+        "price": "60"
     },
     {
-        "id": "7",
-        "title": "Product 7",
-        "customer": "Customer 7"
+        "orderId": "7",
+        "productTitle": "Product G",
+        "date": "2021-01-07",
+        "price": "70"
+    },
+    {
+        "orderId": "8",
+        "productTitle": "Product H",
+        "date": "2021-03-07",
+        "price": "70"
     },
 ]
 
 
 const OrdersTable = () => {
     return (
-        <div className="md:w-[30em] overflow-x-auto bg-base-300 rounded-xl mt-4">
-            <h1 className='ml-3 mt-3 font-medium'>Last 7 Orders</h1>
-            <table className="table table-sm">
+        <div className="flex-1">
+            <h1 className='mt-3 ml-14 text-lg font-medium'>Recent Orders</h1>
+            <table className="w-full table-sm">
                 <thead>
-                    <tr>
-                        <th>SlNo</th>
+                    <tr className='text-left text-sm text-gray-500'>
+                        <th className='text-center'>Order ID</th>
                         <th>Product</th>
-                        <th>Customer</th>
-                        <th>View Ordder</th>
+                        <th>Date</th>
+                        <th>View</th>
                     </tr>
                 </thead>
+
                 <tbody>
                     {
                         orders.map((order, k) => (
-                            <tr key={k} className="hover">
-                                <th>{k + 1}</th>
-                                <td>{order?.title}</td>
-                                <td>{order?.customer}</td>
+                            <tr key={k} className="w-full hover:bg-base-200 cursor-pointer text-left">
+                                <th className='text-center'>{order?.orderId}</th>
+                                <td>{order?.productTitle}</td>
+                                <td>{order?.date}</td>
                                 <td>
                                     <Link
-                                        to={`/order/${order?.id}`}
-                                        className='bg-primary px-4 py-1 rounded text-white'
+                                        to={`/order/${order?.orderId}`}
+                                        className='link text-primary font-medium'
                                     >View</Link>
                                 </td>
                             </tr>
@@ -71,6 +85,10 @@ const OrdersTable = () => {
                     }
                 </tbody>
             </table>
+                <Link
+                    to='/orders'
+                    className='mt-4 block link ml-[5em] text-primary font-medium text-sm'
+                >View More</Link>
         </div>
     )
 }

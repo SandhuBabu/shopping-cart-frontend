@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 const BreadCrumbs = ({ breadCrumbsOptions }) => {
     return (
-        <div className="text-sm breadcrumbs my-8 pl-10">
+        <div className="text-sm breadcrumbs my-8 pl-0">
             <ul>
                 {
                     breadCrumbsOptions.map((opt, k) => (
