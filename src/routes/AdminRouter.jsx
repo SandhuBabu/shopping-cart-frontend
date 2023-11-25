@@ -8,7 +8,8 @@ import {
     NotFound404,
     ProductPage,
     AdminProductsList,
-    AdminAllOrders
+    AdminAllOrders,
+    AdminOrderDetails
 } from '../pages'
 
 
@@ -40,6 +41,10 @@ const AdminRouter = () => {
                     <Route
                         index
                         element={<AdminAllOrders />}
+                    />
+                    <Route
+                        path=':id'
+                        element={<AdminOrderDetails />}
                     />
                 </Route>
                 <Route

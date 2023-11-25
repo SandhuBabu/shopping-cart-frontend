@@ -7,7 +7,7 @@ let isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
 const ThemeToggle = () => {
 
 
-    const handleThemeChange = ({ target }) => {
+    const handleThemeChange = () => {
         const htmlTag = document.documentElement;
 
         if (isDarkMode) {
@@ -17,7 +17,7 @@ const ThemeToggle = () => {
         }
 
         if (!isDarkMode) {
-            htmlTag.setAttribute('data-theme', "night")
+            htmlTag.setAttribute('data-theme', "dark")
             isDarkMode = true
         }
     }

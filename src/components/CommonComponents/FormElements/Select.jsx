@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 
-const Select = ({ name, title, options, classNames, defaultValue, onChange }) => {
+const Select = forwardRef(
+    ({ name, title, options, classNames, defaultValue, onChange, disabled }, ref) => {
 
     return (
         <div className="form-control w-full mt-4">
@@ -12,6 +13,8 @@ const Select = ({ name, title, options, classNames, defaultValue, onChange }) =>
                 onChange={onChange}
                 className={"select select-primary w-full capitalize " + classNames}
                 required
+                disabled={disabled}
+                ref={ref}
             >
                 <option disabled>Choose {title}</option>
                 {
@@ -23,6 +26,6 @@ const Select = ({ name, title, options, classNames, defaultValue, onChange }) =>
 
         </div>
     )
-}
+})
 
 export default React.memo(Select)

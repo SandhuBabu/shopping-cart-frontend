@@ -1,3 +1,22 @@
+export const orderStatusOptions = [
+    { title: "placed" },
+    { title: "shipped" },
+    { title: "delivered" },
+    { title: "cancelled" },
+]
+
+const ORDER_STATUS_BG = {
+    placed: "#00aaff4f",
+    shipped: "#ffa6024f",
+    delivered: "#5ae65a4f",
+    cancelled: "#fe0d0d4f"
+}
+
+
+export const getOrderStatusBg = (status) => {
+    return ORDER_STATUS_BG[status]
+}
+
 export function setAdminTitle(title) {
     document.querySelector('title').innerHTML = "Shopping Cart - " + title
 }

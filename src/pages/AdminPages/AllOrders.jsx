@@ -1,23 +1,18 @@
-import React, { useCallback, useState } from 'react'
+import React, {
+    useCallback,
+    useEffect,
+    useRef,
+    useState
+} from 'react'
 import { Link } from 'react-router-dom'
-import { copyText } from '../../utils/utils'
+import {
+    getOrderStatusBg,
+    copyText,
+    orderStatusOptions
+} from '../../utils/utils'
 import Toast from '../../components/CommonComponents/Alert/Toast'
 import { BreadCrumb, Select } from '../../components'
 
-const STATUS_BG = {
-    placed: "#00aaff4f",
-    shipped: "#ffa6024f",
-    delivered: "#5ae65a4f",
-    cancelled: "#fe0d0d4f"
-}
-
-const filterOptions = [
-    { title: "all" },
-    { title: "placed" },
-    { title: "shipped" },
-    { title: "delivered" },
-    { title: "cancelled" },
-]
 
 const breadCrumbsOptions = [
     { title: "Dashboard", path: "/" },
@@ -190,7 +185,9 @@ const allOrders = [
 
 const AllOrders = () => {
 
-    const [orders, setOrders] = useState(allOrders);
+    const selectRef = useRef()
+
+    const [orders, setOrders] = useState([]);
     const [copy, setCopy] = useState(false);
 
     const handleOrderIDCopy = (orderId) => {
@@ -201,6 +198,11 @@ const AllOrders = () => {
         }, 1500)
     }
 
+    useEffect(() => {
+        const newOrders = allOrders.filter(item => item.status === "placed")
+        setOrders(newOrders)
+    }, [])
+
     const handleFilterChange = useCallback(({ target }) => {
         const val = target.value
 
@@ -209,9 +211,33 @@ const AllOrders = () => {
             return
         }
 
-        const filterProducts = orders.filter(order => order?.status === val)
+        const filterProducts = allOrders.filter(order => order?.status === val)
         setOrders(filterProducts)
     }, [])
+
+    const handleSearch = ({ target }) => {
+        const text = target.value
+
+        if (selectRef.current.value === "all") {
+            const searchedOrders = allOrders.filter(order => {
+                if (order?.orderId.slice(6).includes(text)) {
+                    return order
+                }
+            })
+            setOrders(searchedOrders)
+            return
+        }
+
+        const searchedOrders = allOrders.filter(order => {
+            if (
+                (order?.orderId.slice(6).includes(text)) &&
+                (order.status === selectRef.current.value)
+            ) {
+                return order
+            }
+        })
+        setOrders(searchedOrders)
+    }
 
     return (
         <>
@@ -219,30 +245,51 @@ const AllOrders = () => {
 
                 <BreadCrumb breadCrumbsOptions={breadCrumbsOptions} />
 
-                <div className='mb-6 ml-3'>
-                    <h1 className='text-xl font-semibold'>Orders</h1>
-                    <span className='font-[500] text-sm text-primary'>100+ new orders found</span>
+                <div className='mb-6 ml-3 flex items-center justify-between'>
+                    <div>
+                        <h1 className='text-2xl font-semibold'>Orders</h1>
+                        <span className='font-[500] text-sm text-primary'>100+ new orders found</span>
+
+                    </div>
+                    <div className="tooltip text-xs mr-6 lg:mr-[4.5em]" data-tip="Export as Excel">
+                        <button className="btn btn-square btn-outline btn-primary">
+                            <span className="material-symbols-outlined">
+                                download
+                            </span>
+                        </button>
+                    </div>
                 </div>
 
                 <div className="overflow-x-auto">
-                    <div className='flex items-center mt-[-2em] gap-2'>
-                        <p className='translate-y-4 w-[4em]'>Filters : </p>
-                        <Select
-                            name="orderFilter"
-                            // title="Filter"
-                            options={filterOptions}
-                            classNames="w-[9em_!important] custom-select"
-                            defaultValue="all"
-                            onChange={handleFilterChange}
-                        />
+                    <div className='flex flex-col md:flex-row justify-between md:mb-0 mb-4'>
+                        <div className='flex items-center mt-[-2em] gap-2'>
+                            <p className='translate-y-4 w-[6em]'>Filters : </p>
+                            <Select
+                                ref={selectRef}
+                                name="orderFilter"
+                                options={[{ title: "all" }, ...orderStatusOptions]}
+                                classNames="w-[9em_!important] custom-select"
+                                defaultValue="placed"
+                                onChange={handleFilterChange}
+                            />
+                        </div>
+
+                        <p className='flex items-center gap-2 mr-6 lg:mr-[3.5em]'>
+                            <input
+                                type="search"
+                                placeholder="Search with order id"
+                                className="input input-primary w-full max-w-xs"
+                                onChange={handleSearch}
+                            />
+                        </p>
                     </div>
                     <table className="table">
                         <thead><TableHeadFoot /></thead>
                         <tbody>
-
                             {
                                 orders.map((order, k) => (
                                     <tr key={k}>
+                                        <td>{k + 1}</td>
                                         <td>
                                             <p className='tooltip' data-tip="Copy ID">
                                                 <span
@@ -271,12 +318,11 @@ const AllOrders = () => {
                                         <td>₹ {order?.price}</td>
                                         <td className='text-center'>{order?.quantity}</td>
                                         <th className='flex items-center justify-center'>
-                                            <Status variant={order?.status} bg={STATUS_BG[order?.status]} />
+                                            <Status variant={order?.status} bg={getOrderStatusBg(order?.status)} />
                                         </th>
                                     </tr>
                                 ))
                             }
-
                         </tbody>
 
                         <tfoot><TableHeadFoot /></tfoot>
@@ -295,6 +341,7 @@ export default AllOrders
 const TableHeadFoot = () => {
     return (
         <tr>
+            <th>SlNo</th>
             <th>Order ID</th>
             <th>Product</th>
             <th>Price ₹</th>

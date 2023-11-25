@@ -70,9 +70,12 @@ const NavRight = () => {
                     </div>
                 </label>
                 <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
-                    <li className='h-[3em] mt-2'>
-                        <NavLink to="/profile" className='flex w-full h-full items-center'>Profile</NavLink>
-                    </li>
+                    {
+                        user?.role === "USER" &&
+                        <li className='h-[3em] mt-2'>
+                            <NavLink to="/profile" className='flex w-full h-full items-center'>Profile</NavLink>
+                        </li>
+                    }
                     <li className='h-[3em] mt-2'>
                         <NavLink to="/orders" className='flex w-full h-[3em] items-center'>Orders</NavLink>
                     </li>
