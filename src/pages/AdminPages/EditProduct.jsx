@@ -16,7 +16,7 @@ const genderOptions = [
 const breadCrumbsOptions = [
     { title: "Dashboard", path: "/" },
     { title: "Products", path: '/products' },
-    { title: "Edit Product" }
+    { title: "Edit" }
 ]
 
 const EditProduct = () => {

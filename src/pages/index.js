@@ -30,6 +30,8 @@ const LazyEditProductPage = lazy(() => import('./AdminPages/EditProduct'))
 const LazyProductList = lazy(() => import('./AdminPages/ProductsList'))
 const LazyAllOrders = lazy(() => import('./AdminPages/AllOrders'))
 const LazyOrderDetails = lazy(() => import('./AdminPages/OrderDetails'))
+const LazyStockOut = lazy(() => import('./AdminPages/StockOutList'))
+
 export {
   LazyAdminHomePage as AdminHomePage,
   LazyAddProductPage as AddProductPage,
@@ -37,6 +39,7 @@ export {
   LazyProductList as AdminProductsList,
   LazyAllOrders as AdminAllOrders,
   LazyOrderDetails as AdminOrderDetails,
+  LazyStockOut as AdminStockOut,
 }
 
 

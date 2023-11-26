@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const Stats = () => {
     return (
@@ -14,7 +15,10 @@ const Stats = () => {
                 </div>
             </div>
 
-            <div className="flex items-center stat md:w-[100%%] bg-amber-500 rounded-2xl">
+            <Link
+                to='/products/outofstock'
+                className="flex items-center stat md:w-[100%%] bg-amber-500 rounded-2xl"
+            >
                 <span className="text-3xl lg:text-6xl material-symbols-outlined">
                     warning
                 </span>
@@ -23,7 +27,7 @@ const Stats = () => {
                     <div className="stat-value">40</div>
                     <div className="stat-desc text-white">30+ products has less stocks</div>
                 </div>
-            </div>
+            </Link>
 
             <div className="flex items-center stat md:w-[100%%] bg-secondary rounded-2xl">
                 <span className="text-3xl lg:text-6xl material-symbols-outlined">

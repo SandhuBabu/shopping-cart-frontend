@@ -22,6 +22,7 @@ export const login = async (data) => {
     try {
         const res = await axios.post(`${AUTH_BASE_URL}/signin`, data)
         setLocalTokens(res.data.accessToken, res.data.refreshToken)
+        window.location.reload();
         return {
             userData: res.data,
             error: false,

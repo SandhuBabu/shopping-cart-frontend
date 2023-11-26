@@ -9,7 +9,8 @@ import {
     ProductPage,
     AdminProductsList,
     AdminAllOrders,
-    AdminOrderDetails
+    AdminOrderDetails,
+    AdminStockOut
 } from '../pages'
 
 
@@ -25,14 +26,21 @@ const AdminRouter = () => {
                     path='/addProduct'
                     element={<AddProductPage />}
                 />
-                <Route
-                    path='/editProduct/:id'
-                    element={<EditProductPage />}
-                />
-                <Route
-                    path='/products'
-                    element={<AdminProductsList />}
-                />
+                <Route path='/products'>
+                    <Route
+                        index
+                        element={<AdminProductsList />}
+                    />
+                    <Route
+                        path='edit/:id'
+                        element={<EditProductPage />}
+                    />
+                    <Route
+                        path='outofstock'
+                        element={<AdminStockOut />}
+                    />
+                </Route>
+
                 <Route
                     path='/product/:id'
                     element={<ProductPage />}

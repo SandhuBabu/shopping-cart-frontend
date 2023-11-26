@@ -19,17 +19,12 @@ const breadCrumbsOptions = [
     { title: "All Products" }
 ]
 
-let deleteData = {
-    active: false,
-    id: -1
-}
 
 let page = 1;
 
 const ProductsList = () => {
 
     const [products, setProducts] = useState([]);
-    const [error, setError] = useState(false);
     const [alertMessage, setAlertMessage] = useState({ message: '', type: '' });
     const [modalOpen, setModalOpen] = useState(false);
     const [pageMetaData, setPageMetaData] = useState({});
@@ -56,7 +51,6 @@ const ProductsList = () => {
         scrollToTop();
         const { error, data, ...rest } = await getAllProductsPaginated(page, true, signal);
         if (error) {
-            setError(error)
             return
         }
         setPageMetaData(rest)
@@ -76,7 +70,7 @@ const ProductsList = () => {
     }, [products])
 
     const handleFirstOrLastPageClick = useCallback(async (pageNo) => {
-        page=pageNo;
+        page = pageNo;
         handleGetProduct();
     }, [products])
 
@@ -95,11 +89,10 @@ const ProductsList = () => {
         setModalData({
             actionText: "Are you sure to delete",
             actionLabel: "Yes, Delete",
-            action: confirmDelete,
+            action: () => confirmDelete(id),
             actionLabelVariant: "text-red-400"
         })
 
-        deleteData = { active: true, id: id }
         if (id < 1) return
         setModalOpen(true)
     }, [products])
@@ -112,16 +105,15 @@ const ProductsList = () => {
             actionLabel: "Yes, Edit",
             action: () => {
                 setModalOpen(false)
-                setTimeout(()=>{
-                    navigate(`/editProduct/${id}`)
+                setTimeout(() => {
+                    navigate(`/products/edit/${id}`)
                 }, [1])
             },
             actionLabelVariant: "text-primary"
         })
     }, [])
 
-    const confirmDelete = useCallback(async () => {
-        const { id } = deleteData
+    const confirmDelete = useCallback(async (id) => {
         setModalOpen(false)
         setModalData({
             actionText: "",
@@ -141,12 +133,10 @@ const ProductsList = () => {
         const newProducts = products.filter(item => item.id !== id);
 
         setProducts(newProducts)
-        deleteData = { active: false, id: -1 }
 
     }, [products])
 
     const closeAlert = () => {
-        setError(false);
         setAlertMessage('');
     }
 
@@ -170,17 +160,14 @@ const ProductsList = () => {
 
                 <Link to='/addProduct' className='btn btn-primary  w-[10em] '>Add Product</Link>
 
-                {
-                    !error &&
-                    <ProductsTable
-                        heading={heading}
-                        body={products}
-                        handleDelete={handleDelete}
-                        handleEdit={handleEdit}
-                        currentPage={pageMetaData?.pageNo}
-                        totalPages={pageMetaData?.totalPages}
-                    />
-                }
+                <ProductsTable
+                    heading={heading}
+                    body={products}
+                    handleDelete={handleDelete}
+                    handleEdit={handleEdit}
+                    currentPage={pageMetaData?.pageNo}
+                    totalPages={pageMetaData?.totalPages}
+                />
             </section>
             <Pagination
                 details={pageMetaData}

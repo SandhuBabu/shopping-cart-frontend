@@ -1,10 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import Select from '../../CommonComponents/FormElements/Select'
 
-const pageOptions = [3, 5, 7, 10, 15]
 
-const ProductsTable = ({ heading, body, totalPages, currentPage, handleDelete, handleEdit, setPageSize }) => {
+const ProductsTable = ({ heading, body, totalPages, currentPage, handleDelete, handleEdit }) => {
 
     return (
         <div className="overflow-x-auto">
@@ -17,7 +15,7 @@ const ProductsTable = ({ heading, body, totalPages, currentPage, handleDelete, h
                         <td>SlNo</td>
                         {
                             heading.map((title, k) => (
-                                <td key={k}>{title}</td>
+                                <td key={k} >{title}</td>
                             ))
                         }
                     </tr>
@@ -27,7 +25,7 @@ const ProductsTable = ({ heading, body, totalPages, currentPage, handleDelete, h
                 <tbody>
                     {
                         body.map((row, i) => (
-                            <tr key={i} className='hover:bg-base-200'>
+                            <tr key={i} className='hover:bg-base-200 '>
                                 <td>{i + 1}</td>
                                 <td>
                                     <div className="avatar">
@@ -42,8 +40,8 @@ const ProductsTable = ({ heading, body, totalPages, currentPage, handleDelete, h
                                     </div>
                                 </td>
                                 <td>{row?.category}</td>
-                                <td className='text-center'>{row?.price}</td>
-                                <td className='text-center'>{row?.stockAvailable}</td>
+                                <td>{row?.price} Rs</td>
+                                <td className='pl-12'>{row?.stockAvailable}</td>
                                 <td className='flex gap-3'>
                                     <button className='btn btn-circle' onClick={() => handleEdit(row.id)}>
                                         <span className="material-symbols-outlined text-yellow-400">
@@ -73,11 +71,14 @@ const ProductsTable = ({ heading, body, totalPages, currentPage, handleDelete, h
                     </tr>
                 </tfoot>
             </table>
-            <p className='mt-5 ml-3 tracking-wide font-[300]'>
-                Showing
-                <span> {currentPage}</span> of
-                <span> {totalPages}</span> pages
-            </p>
+            {
+                totalPages &&
+                <p className='mt-5 ml-3 tracking-wide font-[300]'>
+                    Showing
+                    <span> {currentPage}</span> of
+                    <span> {totalPages}</span> pages
+                </p>
+            }
         </div>
     )
 }
