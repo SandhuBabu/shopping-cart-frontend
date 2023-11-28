@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { Count } from '../../../components';
-import { createOrder } from '../../../services/orderService';
+import { createOrder, orderSuccess } from '../../../services/orderService';
 import useRazorpay from 'react-razorpay';
 
 
@@ -20,7 +20,29 @@ const OrderProduct = () => {
         if (!state?.address || !state?.product) {
             return navigate(`/product/${id}`)
         }
+
+        // return () => {
+        //     if (orderStatus.clicked && !orderStatus.orderId) {
+
+        //     }
+        // }
     }, [])
+
+    const handlePaymentSuccess = async (data) => {
+        data = {
+            ...data,
+            addressId: state?.address?.id,
+            products: [
+                {
+                    id: state?.product?.id,
+                    price: state?.product?.price,
+                    quantity: count
+                }
+            ]
+        }
+        console.log(data);
+        await orderSuccess(data)
+    }
 
     const incrementCount = useCallback(() => {
         setCount(prev => prev === state?.product?.stockAvailable ? 1 : prev + 1)
@@ -32,13 +54,19 @@ const OrderProduct = () => {
 
     const handlePayNow = useCallback(async () => {
         const data = {
-            addressId: state.address?.id,
-            productId: state?.product?.id,
-            price: state?.product?.price,
-            quantity: count
+            addressId: state?.address?.id,
+            totalAmount: state?.product?.price * count,
+            products: [
+                {
+                    id: state?.product?.id,
+                    quantity: count
+                }
+            ]
         }
 
         const { error, order } = await createOrder(data)
+
+
         if (error) {
             alert("Failed to create order")
             return
@@ -52,17 +80,17 @@ const OrderProduct = () => {
             name: "Shopping Cart",
             description: "Test Transaction",
             image: "https://i.pinimg.com/originals/aa/70/8d/aa708d1f97a04f6f5a208213f89e1e67.png",
-            handler: function ({ razorpay_order_id, razorpay_payment_id, razorpay_signature }) {
+            handler: function (res) {
                 /**
                  * razorpay_order_id is different from order id created at server
                  */
                 const data = {
-                    razorpayOrderId: razorpay_order_id,
-                    razorpayPaymentId: razorpay_payment_id,
-                    razorpaySignature: razorpay_signature
+                    razorpayOderId: res?.razorpay_order_id,
+                    paymentId: res?.razorpay_payment_id,
+                    razorpaySignature: res?.razorpay_signature,
+                    // totalAmount: order?.amount
                 }
-                console.log(data);
-                navigate("/orders")
+                handlePaymentSuccess(data);
             },
             prefill: {
                 name: user?.username,
@@ -79,12 +107,12 @@ const OrderProduct = () => {
         rzp1.on("payment.failed", function ({ error }) {
             const data = {
                 orderId: error?.metadata.order_id,
-                paymentId: error?.metadata?.payment_id
+                paymentId: error?.metadata?.payment_id,
             }
             console.log(data);
         });
 
-        rzp1.on("payment.cancel", (res)=>console.log(res))
+        rzp1.on("payment.cancel", (res) => console.log(res))
 
         rzp1.open();
     }, [count])
