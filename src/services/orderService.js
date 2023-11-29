@@ -12,14 +12,23 @@ export const createOrder = async (orderData) => {
 }
 
 export const orderSuccess = (data) => {
-    return orderApi.post("/create/success", data)
-        .then(res => {
-            console.log(res);
-        })
-        .catch(err => {
-            console.log(err);
-        })
+    return orderApi.post("/payment/success", data)
+        .then(res => ({
+            error: false,
+            message: res?.data
+        }))
+        .catch(err => ({
+            error: true,
+            message: err?.response?.data
+        }))
 }
 
 
-// export 
+export const paymentFailure = data => {
+    return orderApi.post("payment/failure", data)
+        .then(res => res?.data)
+        .catch(err => {
+            console.log(err);
+            return "failed to save payment failure data"
+        })
+}

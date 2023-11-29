@@ -50,4 +50,7 @@ export const logout = async () => {
     const form = new FormData();
     form.set("token", token)
     return axios.post(`${AUTH_BASE_URL}/logout`, form)
+    .catch(err => {
+        console.log(err);
+    })
 }

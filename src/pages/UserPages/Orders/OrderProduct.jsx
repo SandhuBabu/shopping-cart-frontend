@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
-import { Count } from '../../../components';
-import { createOrder, orderSuccess } from '../../../services/orderService';
+import { Alert, Count } from '../../../components';
+import Confetti from 'react-confetti';
+import { createOrder, orderSuccess, paymentFailure } from '../../../services/orderService';
 import useRazorpay from 'react-razorpay';
 
 
@@ -12,9 +13,11 @@ const OrderProduct = () => {
     const user = useSelector(store => store.user)
     const { id } = useParams()
     const navigate = useNavigate();
+    useRazorpay();
 
     const [count, setCount] = useState(1);
-    useRazorpay();
+    const [error, setError] = useState('');
+    const [confetti, setConfetti] = useState(false)
 
     useEffect(() => {
         if (!state?.address || !state?.product) {
@@ -40,8 +43,16 @@ const OrderProduct = () => {
                 }
             ]
         }
-        console.log(data);
-        await orderSuccess(data)
+        const { error, message } = await orderSuccess(data)
+        if (error) {
+            setError(message)
+            return
+        }
+
+        setConfetti(true)
+        setTimeout(() => {
+            navigate("/orders")
+        }, 2500)
     }
 
     const incrementCount = useCallback(() => {
@@ -104,21 +115,29 @@ const OrderProduct = () => {
 
         const rzp1 = new Razorpay(options);
 
-        rzp1.on("payment.failed", function ({ error }) {
+        rzp1.on("payment.failed", async function ({ error }) {
             const data = {
                 orderId: error?.metadata.order_id,
                 paymentId: error?.metadata?.payment_id,
             }
-            console.log(data);
+            await paymentFailure(data)
         });
 
-        rzp1.on("payment.cancel", (res) => console.log(res))
+        rzp1.on("payment.cancel", (res) => console.log("Cancelled"))
 
         rzp1.open();
     }, [count])
 
     return (
         <>
+            {
+                error &&
+                <Alert
+                    text={error}
+                    close={() => setError('')}
+                />
+
+            }
             <h1 className='text-2xl'>Order Product</h1>
             <div className='flex flex-col lg:flex-row gap-8 px-4 py-5'>
                 <div className='flex flex-col sm:flex-row gap-8'>
@@ -150,7 +169,7 @@ const OrderProduct = () => {
                             handleIncrement={incrementCount}
                             handleDecrement={decrementCount}
                         />
-                        <h1>Total Price: {count * state?.product?.price}</h1>
+                        <h1 className='text-success my-8'>Total Price: &nbsp;  ₹ {count * state?.product?.price + 49}</h1>
                     </div>
                 </div>
 
@@ -177,6 +196,18 @@ const OrderProduct = () => {
                 onClick={handlePayNow}
                 className='my-6 ml-4 btn btn-primary btn-wide'
             >Pay Now</button>
+
+            {
+                confetti &&
+                <div className='w-[100%] h-screen absolute flex items-center justify-center top-0 left-0'>
+                    <Confetti
+                        width={window.innerWidth - 20}
+                        gravity={0.9}
+                        height={window.innerHeight}
+                    />
+                    <h1 className='text-5xl font-bold text-success'>Order Placed</h1>
+                </div>
+            }
         </>
     )
 }

@@ -42,3 +42,12 @@ export const deleteProductById = (id) => {
         return {error: false, message}
     })
 }
+
+export const getAllOrdersForAdmin = (signal) => {
+    return adminApi.get("/orders/all", {signal})
+    .then(res => res?.data)
+    .catch(err => {
+        console.log(err);
+        return [];
+    })
+}
