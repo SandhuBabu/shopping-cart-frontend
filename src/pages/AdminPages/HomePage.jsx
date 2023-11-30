@@ -27,7 +27,7 @@ const HomePage = () => {
 
       <Link
         to="/addProduct"
-        className='btn btn-neutral my-4'
+        className='btn btn-primary mt-2 mb-6'
       >Add New Product</Link>
       <AdminStats />
       <div className='flex flex-col gap-4 xl:flex-row'>

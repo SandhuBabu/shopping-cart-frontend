@@ -3,13 +3,15 @@ export const orderStatusOptions = [
     { title: "shipped" },
     { title: "delivered" },
     { title: "cancelled" },
+    { title: "returned" }
 ]
 
 const ORDER_STATUS_BG = {
     placed: "#00aaff4f",
     shipped: "#ffa6024f",
     delivered: "#5ae65a4f",
-    cancelled: "#fe0d0d4f"
+    cancelled: "#fe0d0d4f",
+    returned: "#feaffe4f"
 }
 
 
@@ -69,16 +71,6 @@ export const share = (shareData) => {
         })
 }
 
-// export const loadRazorpayScript = () => {
-//     return new Promise((resolve) => {
-//         const script = document.createElement("script")
-//         script.src = "https://checkout.razorpay.com/v1/checkout.js"
-//         script.onload = () => {
-//             resolve(true)
-//         }
-//         script.onerror = () => {
-//             resolve(false)
-//         }
-//         document.body.appendChild(script)
-//     })
-// }
+export const formatDate = date => {
+    return new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+}

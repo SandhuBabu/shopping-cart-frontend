@@ -9,7 +9,7 @@ const Stats = () => {
                     deployed_code_alert
                 </span>
                 <div>
-                    <div className="stat-title text-white font-medium text-xl">Today's Orders</div>
+                    <div className="stat-title text-white font-medium text-xl">New Orders</div>
                     <div className="stat-value">300+</div>
                     <div className="stat-desc text-white">Jan 21, 2023</div>
                 </div>

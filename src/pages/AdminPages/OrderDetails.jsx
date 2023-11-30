@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import { BreadCrumb, Select } from '../../components'
+import React, { useCallback, useEffect, useState } from 'react'
+import { Alert, BreadCrumb, Select } from '../../components'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
-import { getOrderStatusBg, orderStatusOptions } from '../../utils/utils'
+import { formatDate, getOrderStatusBg, orderStatusOptions } from '../../utils/utils'
+import { changeStatus } from '../../services/adminService'
 
 const breadCrumbsOptions = [
     { title: "Dashboard", path: "/" },
@@ -14,9 +15,9 @@ const OrderDetails = () => {
 
     const { id } = useParams();
     const navigate = useNavigate();
-    const location = useLocation();
-    // let order = location.state?.order;
+    let location = useLocation();
     const [order, setOrder] = useState(location.state?.order)
+    const [alertMessage, setAlertMessage] = useState('')
 
     useEffect(() => {
         if (!order) {
@@ -24,16 +25,24 @@ const OrderDetails = () => {
         }
     }, [])
 
-    const hndleStatusChange = ({ target }) => {
-        setOrder(prev => ({
-            ...prev,
-            status: target.value
-        }))
-    }
+    const hndleStatusChange = useCallback(async ({ target }) => {
+
+        const { message, error } = await changeStatus(order?.id, target.value)
+        if (!error) {
+            setOrder(prev => ({
+                ...prev,
+                status: target.value
+            }))
+        }
+
+        setAlertMessage(message)
+        setTimeout(() => {
+            setAlertMessage('')
+        }, 2500)
+    }, [])
 
     return (
         <>
-            {/* <pre>{JSON.stringify(order, undefined, 4)}</pre> */}
             <div className='min-h-screen'>
                 <BreadCrumb breadCrumbsOptions={breadCrumbsOptions} />
                 <h1 className='indicator text-2xl font-semibold pr-5'>
@@ -72,6 +81,10 @@ const OrderDetails = () => {
                         <p className='flex gap-3 mt-2'>
                             <span className='w-[6em]'>Quantity</span>
                             <span>{order?.quantity}</span>
+                        </p>
+                        <p className='flex gap-3 mt-2'>
+                            <span className='w-[6em]'>Ordered At</span>
+                            <span>{formatDate(order?.createdAt)}</span>
                         </p>
                         <p className='flex gap-3 mt-2'>
                             <span className='w-[6em]'>Price</span>
@@ -115,6 +128,15 @@ const OrderDetails = () => {
                     </p>
                 </div>
             </div>
+
+            {
+                alertMessage &&
+                <Alert
+                    text={alertMessage}
+                    type='bg-primary'
+                    close={() => setAlertMessage('')}
+                />
+            }
         </>
     )
 }

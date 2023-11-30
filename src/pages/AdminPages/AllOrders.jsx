@@ -1,18 +1,20 @@
 import React, {
     useCallback,
     useEffect,
+    useMemo,
     useRef,
     useState
 } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import {
     getOrderStatusBg,
     copyText,
-    orderStatusOptions
+    orderStatusOptions,
+    formatDate
 } from '../../utils/utils'
 import Toast from '../../components/CommonComponents/Alert/Toast'
 import { BreadCrumb, Select } from '../../components'
-import { getAllOrdersForAdmin } from '../../services/adminService'
+import { getAllOrdersForAdmin, getOrdersCountByStatus } from '../../services/adminService'
 
 
 const breadCrumbsOptions = [
@@ -20,36 +22,33 @@ const breadCrumbsOptions = [
     { title: "Orders" }
 ]
 
-// let allOrders = [
-//     {
-//         "orderId": "order_1a2b3c",
-//         "productTitle": "Example Product 1",
-//         "productCategory": "Electronics",
-//         "price": "19.99",
-//         "quantity": "2",
-//         "status": "placed"
-//     },
-//     {
-//         "orderId": "order_4d5e6f",
-//         "productTitle": "Example Product 2",
-//         "productCategory": "Clothing",
-//         "price": "29.99",
-//         "quantity": "1",
-//         "status": "shipped"
-//     },
-// ]
 
 let allOrders = []
 
 const AllOrders = () => {
 
     const selectRef = useRef();
+    const pageNo = useRef(1);
     const navigate = useNavigate();
     const controller = new AbortController();
 
-    
+    const [isLastPage, setIsLastPage] = useState(false);
     const [orders, setOrders] = useState([]);
     const [copy, setCopy] = useState(false);
+    const [newOrdersCount, setNewOrdersCount] = useState(0);
+
+    useEffect(() => {
+        handleGetOrders();
+        handleNewOrdersCount();
+        return () => {
+            controller.abort();
+        }
+    }, [])
+
+    const handleNewOrdersCount = useCallback(async () => {
+        const data = await getOrdersCountByStatus("placed", controller.signal)
+        setNewOrdersCount(data)
+    }, [])
 
     const handleOrderIDCopy = (orderId) => {
         copyText(orderId)
@@ -59,21 +58,18 @@ const AllOrders = () => {
         }, 1500)
     }
 
-    useEffect(() => {
-        handleGetOrders();
-        
-        return () => {
-            controller.abort();
-        }
-    }, [])
-
     const handleGetOrders = async () => {
-
-        const data = await getAllOrdersForAdmin(controller.signal);
-        allOrders = [...allOrders, ...data]
-        const newOrders = allOrders.filter(item => item?.status === "placed")
+        // selectRef.current.value = "placed"
+        const data = await getAllOrdersForAdmin(pageNo.current, controller.signal);
+        allOrders = [...allOrders, ...data.content]
+        const newOrders = allOrders.filter(item => {
+            if (selectRef.current.value === "all")
+                return item
+            if (item?.status === selectRef.current.value)
+                return item
+        })
         setOrders(newOrders)
-        console.log("ALL_ORDERS", allOrders);
+        setIsLastPage(data.last)
     }
 
     const handleFilterChange = useCallback(({ target }) => {
@@ -90,10 +86,9 @@ const AllOrders = () => {
 
     const handleSearch = ({ target }) => {
         const text = target.value
-
         if (selectRef.current.value === "all") {
             const searchedOrders = allOrders.filter(order => {
-                if (order?.razorpayOrderId.slice(6).includes(text)) {
+                if (order['razorpayOrderId'].slice(6).includes(text)) {
                     return order
                 }
             })
@@ -122,15 +117,8 @@ const AllOrders = () => {
                 <div className='mb-6 ml-3 flex items-center justify-between'>
                     <div>
                         <h1 className='text-2xl font-semibold'>Orders</h1>
-                        <span className='font-[500] text-sm text-primary'>100+ new orders found</span>
+                        <span className='font-[500] text-sm text-primary'>{newOrdersCount} new orders found</span>
 
-                    </div>
-                    <div className="tooltip text-xs mr-6 lg:mr-[4.5em]" data-tip="Export as Excel">
-                        <button className="btn btn-square btn-outline btn-primary">
-                            <span className="material-symbols-outlined">
-                                download
-                            </span>
-                        </button>
                     </div>
                 </div>
 
@@ -148,7 +136,7 @@ const AllOrders = () => {
                             />
                         </div>
 
-                        <p className='flex w-[16em] justify-end gap-2 mr-6 lg:mr-[3.5em]'>
+                        <p className='flex w-[16em] justify-end gap-2 mr-6 lg:mr-[3.25em]'>
                             <input
                                 type="search"
                                 placeholder="Search with razorpay order id"
@@ -162,21 +150,22 @@ const AllOrders = () => {
                         <tbody>
                             {
                                 orders.map((order, k) => (
-                                    <tr key={k}>
+                                    <tr key={k} className='hover'>
                                         <td>{k + 1}</td>
-                                        <td>
-                                            <p className='tooltip' data-tip="Copy ID">
+                                        <td className='w-[14em]'>
+                                            <p className='tooltip' data-tip="Copy Order ID">
                                                 <span
                                                     className='cursor-pointer'
                                                     onClick={() => handleOrderIDCopy(`Razorpay order Id: ${order?.razorpayOrderId}, order Id: ${order?.id}`)}
                                                 >{order?.razorpayOrderId.slice(6)} | {order?.id}</span>
                                             </p>
                                         </td>
+                                        <td>{formatDate(order?.createdAt)}</td>
                                         <td>
                                             <button
                                                 // to={`/orders/${order?.id}`}
                                                 onClick={() => {
-                                                    navigate(`/orders/${order?.id}`, {state: {order}})
+                                                    navigate(`/orders/${order?.id}`, { state: { order } })
                                                 }}
                                                 className="flex items-center gap-3">
                                                 <div className="avatar">
@@ -207,6 +196,19 @@ const AllOrders = () => {
 
                         <tfoot><TableHeadFoot /></tfoot>
                     </table>
+
+                    <p className='flex justify-center my-8'>
+                        <button
+                            onClick={() => {
+                                pageNo.current += 1;
+                                handleGetOrders();
+                            }}
+                            disabled={isLastPage}
+                            className='btn btn-primary btn-outline text-[12px] min-h-0 max-h-[3.5em] w-[9em] py-0'
+                        >
+                            Load More
+                        </button>
+                    </p>
                 </div>
             </div>
 
@@ -222,7 +224,8 @@ const TableHeadFoot = () => {
     return (
         <tr>
             <th>SlNo</th>
-            <th>Razorpay ID | Order ID</th>
+            <th>Order ID</th>
+            <th>Created At</th>
             <th>Product</th>
             <th>Price ₹</th>
             <th className='text-center'>Quantity</th>
