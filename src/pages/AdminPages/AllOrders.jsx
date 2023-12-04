@@ -1,7 +1,6 @@
 import React, {
     useCallback,
     useEffect,
-    useMemo,
     useRef,
     useState
 } from 'react'
@@ -59,7 +58,6 @@ const AllOrders = () => {
     }
 
     const handleGetOrders = async () => {
-        // selectRef.current.value = "placed"
         const data = await getAllOrdersForAdmin(pageNo.current, controller.signal);
         allOrders = [...allOrders, ...data.content]
         const newOrders = allOrders.filter(item => {
@@ -108,17 +106,17 @@ const AllOrders = () => {
     }
 
 
+
     return (
         <>
             <div className='min-h-screen'>
 
                 <BreadCrumb breadCrumbsOptions={breadCrumbsOptions} />
 
-                <div className='mb-6 ml-3 flex items-center justify-between'>
+                <div className='mb-6 ml-3'>
                     <div>
                         <h1 className='text-2xl font-semibold'>Orders</h1>
                         <span className='font-[500] text-sm text-primary'>{newOrdersCount} new orders found</span>
-
                     </div>
                 </div>
 
@@ -149,7 +147,7 @@ const AllOrders = () => {
                         <thead><TableHeadFoot /></thead>
                         <tbody>
                             {
-                                orders.map((order, k) => (
+                                orders.reverse().map((order, k) => (
                                     <tr key={k} className='hover'>
                                         <td>{k + 1}</td>
                                         <td className='w-[14em]'>

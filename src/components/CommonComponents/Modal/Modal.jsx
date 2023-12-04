@@ -44,7 +44,11 @@ const Modal = ({
                     }} className='mr-6'>Cancel</button>
                     <button
                         className={actionLabelVariant ?? `text-base-content`}
-                        onClick={action}
+                        onClick={() => {
+                            cancel()
+                            document.querySelector('body').style.overflowY = "auto"
+                            action()
+                        }}
                     >{actionLabel}</button>
                 </div>
             </div>

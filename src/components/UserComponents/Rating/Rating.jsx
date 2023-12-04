@@ -47,4 +47,5 @@ const handleChange = (e) => {
     )
 }
 
-export default React.memo(Rating)
+// export default React.memo(Rating)
+export default Rating

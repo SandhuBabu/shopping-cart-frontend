@@ -11,9 +11,19 @@ const ORDER_STATUS_BG = {
     shipped: "#ffa6024f",
     delivered: "#5ae65a4f",
     cancelled: "#fe0d0d4f",
-    returned: "#feaffe4f"
+    returned: "#ffa6024f"
 }
 
+export const getOrderStatusTextColor = status => {
+    switch (status) {
+        case 'placed': return 'text-primary'
+        case 'delivered': return 'text-green-500';
+        case 'cancelled': return 'text-error';
+        case 'shipped': return 'text-warning';
+        case 'returned': return 'text-warning';
+        default: return 'text-primary';
+    }
+}
 
 export const getOrderStatusBg = (status) => {
     return ORDER_STATUS_BG[status]
@@ -46,16 +56,6 @@ export const categories = [
     { title: "Watches", link: "/category/watches" },
 ]
 
-
-export const getOrderStatusTextColor = status => {
-    switch (status) {
-        case 'Delivered': return 'text-green-500';
-        case 'Cancelled': return 'text-error';
-        case 'Shipped': return 'text-warning';
-        default: return 'text-green-500';
-    }
-}
-
 export const copyText = (text) => {
     navigator.clipboard.writeText(text)
 }
@@ -73,4 +73,14 @@ export const share = (shareData) => {
 
 export const formatDate = date => {
     return new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+}
+
+export const getDateDifference = (from) => {
+    let day1 = new Date(from)
+    let day2 = new Date()
+
+    let diffInMilliseconds = day2 - day1;
+    const millisecondsInDay = 24 * 60 * 60 * 1000;
+    return diffInMilliseconds/millisecondsInDay
+
 }

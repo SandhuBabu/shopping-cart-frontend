@@ -1,7 +1,7 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Alert, BreadCrumb, Modal } from '../../components'
 import ProductsTable from '../../components/AdminComponents/DataTable/ProductsTable'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { deleteProductById } from '../../services/adminService'
 
 const breadCrumbsOptions = [
@@ -104,8 +104,10 @@ const allProducts = [
 const StockOutList = () => {
 
     const navigate = useNavigate()
+    const location = useLocation();
+    // const pro = location?.state?.products
 
-    const [products, setProducts] = useState(allProducts);
+    const [products, setProducts] = useState(location?.state?.products);
     const [alertMessage, setAlertMessage] = useState({ message: '', type: '' });
     const [modalOpen, setModalOpen] = useState(false);
     const [modalData, setModalData] = useState({
@@ -115,6 +117,11 @@ const StockOutList = () => {
         action: null,
         actionLabelVariant: ""
     })
+
+
+    useEffect(() => {
+        console.log(location?.state?.products);
+    }, [])
 
     const handleDelete = useCallback((id) => {
         setModalData({

@@ -66,3 +66,12 @@ export const changeStatus = (id, status) => {
         .then(res => ({ message: res?.data, error: false }))
         .catch(err => ({ message: err?.response?.data, error: true }))
 }
+
+export const dashboardDetails = (signal) => {
+    return adminApi('/dashboard', { signal })
+        .then(res => res?.data)
+        .catch(err => {
+            console.log(err)
+            return
+        })
+}

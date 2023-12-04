@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react'
+import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import AdminLayout from '../components/Layout/AdminLayout'
 import {
@@ -10,7 +10,7 @@ import {
     AdminProductsList,
     AdminAllOrders,
     AdminOrderDetails,
-    AdminStockOut
+    AdminStockOut,
 } from '../pages'
 
 

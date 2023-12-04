@@ -32,17 +32,6 @@ const OrderProduct = () => {
     }, [])
 
     const handlePaymentSuccess = async (data) => {
-        data = {
-            ...data,
-            addressId: state?.address?.id,
-            products: [
-                {
-                    id: state?.product?.id,
-                    price: state?.product?.price,
-                    quantity: count
-                }
-            ]
-        }
         const { error, message } = await orderSuccess(data)
         if (error) {
             setError(message)
@@ -99,7 +88,6 @@ const OrderProduct = () => {
                     razorpayOderId: res?.razorpay_order_id,
                     paymentId: res?.razorpay_payment_id,
                     razorpaySignature: res?.razorpay_signature,
-                    // totalAmount: order?.amount
                 }
                 handlePaymentSuccess(data);
             },

@@ -1,66 +1,19 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-
-const orders = [
-    {
-        "orderId": "1",
-        "productTitle": "Product A",
-        "date": "2021-01-01",
-        "price": "10"
-    },
-    {
-        "orderId": "2",
-        "productTitle": "Product B",
-        "date": "2021-01-02",
-        "price": "20"
-    },
-    {
-        "orderId": "3",
-        "productTitle": "Product C",
-        "date": "2021-01-03",
-        "price": "30"
-    },
-    {
-        "orderId": "4",
-        "productTitle": "Product D",
-        "date": "2021-01-04",
-        "price": "40"
-    },
-    {
-        "orderId": "5",
-        "productTitle": "Product E",
-        "date": "2021-01-05",
-        "price": "50"
-    },
-    {
-        "orderId": "6",
-        "productTitle": "Product F",
-        "date": "2021-01-06",
-        "price": "60"
-    },
-    {
-        "orderId": "7",
-        "productTitle": "Product G",
-        "date": "2021-01-07",
-        "price": "70"
-    },
-    {
-        "orderId": "8",
-        "productTitle": "Product H",
-        "date": "2021-03-07",
-        "price": "70"
-    },
-]
+import { Link, useNavigate } from 'react-router-dom'
+import { formatDate } from '../../../utils/utils'
 
 
-const OrdersTable = () => {
+const OrdersTable = ({ orders = [] }) => {
+
+    const navigate = useNavigate();
+
     return (
-        <div className="flex-1">
-            <h1 className='mt-3 ml-14 text-lg font-medium'>Recent Orders</h1>
-            <table className="w-full table-sm">
+        <div className="flex-1 mt-[4em]">
+            <h1 className='mt-3 text-lg font-medium'>Recent Orders</h1>
+            <table className="w-full table-sm overflow-x-scroll">
                 <thead>
                     <tr className='text-left text-sm text-gray-500'>
-                        <th className='text-center'>Order ID</th>
+                        <th>Order ID</th>
                         <th>Product</th>
                         <th>Date</th>
                         <th>View</th>
@@ -71,24 +24,37 @@ const OrdersTable = () => {
                     {
                         orders.map((order, k) => (
                             <tr key={k} className="w-full hover:bg-base-200 cursor-pointer text-left">
-                                <th className='text-center'>{order?.orderId}</th>
-                                <td>{order?.productTitle}</td>
-                                <td>{order?.date}</td>
+                                <th>{order?.razorpayOrderId.slice(6)}</th>
+                                <td className='flex items-center gap-1'>
+                                    <img
+                                        src={order?.product?.imageUrl}
+                                        className='w-[4em] rounded max-h-[4em]'
+                                        alt="" />
+                                    <p className='flex flex-col'>
+                                        <span className='font-semibold'>{order?.product?.title}</span>
+                                        <span className='text-gray-400'>{order?.product?.category}</span>
+                                    </p>
+                                </td>
+                                <td>{formatDate(order?.createdAt)}</td>
                                 <td>
-                                    <Link
-                                        to={`/order/${order?.orderId}`}
+                                    <button
+                                        onClick={() => {
+                                            navigate(`/orders/${order?.id}`, {
+                                                state: { order }
+                                            })
+                                        }}
                                         className='link text-primary font-medium'
-                                    >View</Link>
+                                    >View</button>
                                 </td>
                             </tr>
                         ))
                     }
                 </tbody>
             </table>
-                <Link
-                    to='/orders'
-                    className='mt-4 block link ml-[5em] text-primary font-medium text-sm'
-                >View More</Link>
+            <Link
+                to='/orders'
+                className='mt-4 block link ml-[1em] text-primary font-medium text-sm'
+            >View More</Link>
         </div>
     )
 }

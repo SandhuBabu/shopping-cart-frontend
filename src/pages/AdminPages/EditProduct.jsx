@@ -120,7 +120,7 @@ const EditProduct = () => {
 
             <section className='w-full px-4 flex justify-center pb-16'>
                 <form onSubmit={handleSubmit} className='w-full lg:w-[40em]'>
-                    <h1 className='text-center text-3xl my-3'>Edit Product - {product.id}</h1>
+                    <h1 className='text-center text-3xl my-3 capitalize'>Edit Product - {product?.title}</h1>
 
                     <Input type="text" value={product.title} onChange={handleChange} title="title" name="title" />
 

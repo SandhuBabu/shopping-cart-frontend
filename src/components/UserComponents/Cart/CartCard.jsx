@@ -16,7 +16,7 @@ const CartCard = ({ product, remove }) => {
                     </div>
                 </Link>
                 <p className='mt-2'>₹ {product?.price}</p>
-                <p className='mt-2'>{product?.stockAvailable}</p>
+                <p className='mt-2'>{product?.stockAvailable} Stocks left</p>
 
 
                 <button

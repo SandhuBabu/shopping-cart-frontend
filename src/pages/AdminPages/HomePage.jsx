@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { scrollToTop, setAdminTitle } from '../../utils/utils'
 import { useSelector } from 'react-redux'
 import {
@@ -7,18 +7,28 @@ import {
   AdminStats,
 } from '../../components'
 import { Link } from 'react-router-dom'
+import { dashboardDetails } from '../../services/adminService'
 
 const HomePage = () => {
-
+  const controller = new AbortController();
   const user = useSelector(store => store.user)
+  const [data, setData] = useState();
   setAdminTitle("Admin")
 
   useEffect(() => {
+    getDashboardDetails()
     scrollToTop()
-    return () => scrollToTop()
+    return () => {
+      controller.abort()
+      scrollToTop()
+    }
   }, [])
 
 
+  const getDashboardDetails = useCallback(async () => {
+    const res = await dashboardDetails(controller.signal)
+    setData(res)
+  }, [])
 
 
   return (
@@ -29,10 +39,17 @@ const HomePage = () => {
         to="/addProduct"
         className='btn btn-primary mt-2 mb-6'
       >Add New Product</Link>
-      <AdminStats />
+      <AdminStats
+        newOrdersCount={data?.newOrdersCount}
+        outOfStock={data?.outOfStock}
+        todaysEarning={data?.todaysEarning}
+        totalEarnings={data?.totalEarnings}
+      />
       <div className='flex flex-col gap-4 xl:flex-row'>
-        <AdminHomeOrdersTable />
-        <div className='flex items-center justify-center'>
+        <AdminHomeOrdersTable
+          orders={data?.recentOrders}
+        />
+        <div className='flex items-center mt-[4em] lg:mt-[-4.5em] justify-center'>
           <AdminHomeChart />
         </div>
       </div>

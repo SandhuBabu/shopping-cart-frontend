@@ -33,7 +33,7 @@ const Navbar = ({open}) => {
 
       <SearchModal />
 
-      {!user?.username && <LoginModal />}
+       <LoginModal />
     </>
   )
 }
