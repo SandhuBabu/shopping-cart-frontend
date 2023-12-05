@@ -78,7 +78,7 @@ const AddProduct = () => {
             <BreadCrumb breadCrumbsOptions={breadCrumbsOptions} />
             <section className='w-full min-h-screen px-4 flex justify-center pb-16'>
                 <form onSubmit={handleSubmit} className='w-full lg:w-[40em]'>
-                    <h1 className='text-center text-3xl my-3'>Create Account</h1>
+                    <h1 className='text-center text-3xl my-3'>Add New Product</h1>
 
                     <Input type="text" value={product.title} onChange={handleChange} title="title" name="title" />
 

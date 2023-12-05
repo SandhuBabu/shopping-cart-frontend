@@ -129,7 +129,7 @@ const AllOrders = () => {
                                 name="orderFilter"
                                 options={[{ title: "all" }, ...orderStatusOptions]}
                                 classNames="w-[9em_!important] custom-select"
-                                defaultValue="placed"
+                                defaultValue="All"
                                 onChange={handleFilterChange}
                             />
                         </div>

@@ -49,7 +49,7 @@ const HomePage = () => {
         <AdminHomeOrdersTable
           orders={data?.recentOrders}
         />
-        <div className='flex items-center mt-[4em] lg:mt-[-4.5em] justify-center'>
+        <div className='flex items-center min-h-[35em] mt-[4em] lg:mt-[-4.5em] justify-center'>
           <AdminHomeChart />
         </div>
       </div>

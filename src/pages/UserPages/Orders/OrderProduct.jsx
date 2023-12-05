@@ -6,7 +6,6 @@ import Confetti from 'react-confetti';
 import { createOrder, orderSuccess, paymentFailure } from '../../../services/orderService';
 import useRazorpay from 'react-razorpay';
 
-
 const OrderProduct = () => {
     const location = useLocation();
     const { state } = location
@@ -19,20 +18,17 @@ const OrderProduct = () => {
     const [error, setError] = useState('');
     const [confetti, setConfetti] = useState(false)
 
+
     useEffect(() => {
         if (!state?.address || !state?.product) {
             return navigate(`/product/${id}`)
         }
-
-        // return () => {
-        //     if (orderStatus.clicked && !orderStatus.orderId) {
-
-        //     }
-        // }
     }, [])
 
+
+
     const handlePaymentSuccess = async (data) => {
-        const { error, message } = await orderSuccess(data)
+        const { error, message } = await orderSuccess(data);
         if (error) {
             setError(message)
             return
