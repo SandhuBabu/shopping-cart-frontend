@@ -9,4 +9,4 @@
 Sample Images:
 
 ## Sign Up
-![Create User Account](SampleImages/sign_ip.png "Create User Account")
+![Create User Account](SampleImages/sign_up.png "Create User Account")
