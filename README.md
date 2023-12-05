@@ -34,3 +34,21 @@ Sample Images:
 
 ## Cart
 ![Cart Page Of User](SampleImages/user_cart.png "Cart Page")
+
+## Admin Dashboard
+![Admin Dashboard](SampleImages/admin_dashboard.png "Dashboard Page")
+
+## Admin All Orders
+![Admin All Orders](SampleImages/admin_all_orders.png "Admin All Orders")
+
+## Admin All Products
+![Admin All ](SampleImages/admin_all_products.png "Admin All Products")
+
+## Admin Add Products
+![Admin Add Products](SampleImages/admin_new_product.png "Admin Add Products")
+
+## Admin Edit Products
+![Admin Edit Products](SampleImages/admin_edit_product.png "Admin Edit Products")
+
+## Admin Details of Ordered Product
+![Details of Ordered Product](SampleImages/admin_order_details.png "Admin Details of Ordered Product")
